@@ -20,10 +20,10 @@
 .fullName {
   margin: 5px 0 0;
   font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.2em;
+  font-size: 10px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--on-dark-3);
+  color: var(--on-dark-2);
   text-shadow: var(--text-shadow);
 }
 /* One row, always — no max-width to wrap against, and it shrinks with the
@@ -52,6 +52,7 @@
   margin: 10px 0 0;
   font-family: var(--font-mono);
   font-size: 10px;
+  white-space: pre-line;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--on-dark-3);
