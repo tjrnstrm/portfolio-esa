@@ -5,9 +5,9 @@ import type { Project } from "../../content/projects";
 import Background from "./Background";
 import Deck from "./Deck";
 import Flyer from "./Flyer";
-import NowPlaying from "./NowPlaying";
 import Rack from "./Rack";
 import SiteNav from "./SiteNav";
+import VideoControls from "./VideoControls";
 import { useMusicPlayer } from "./useMusicPlayer";
 import { useRack } from "./useRack";
 import { useTurntable } from "./useTurntable";
@@ -23,6 +23,11 @@ type HeroStageProps = {
  *  every child stylesheet keys its playing state off. */
 export default function HeroStage({ projects, intro }: HeroStageProps) {
   const mouthRef = useRef<HTMLSpanElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoTime, setVideoTime] = useState(0);
+  const [videoDuration, setVideoDuration] = useState(0);
+  const [videoPaused, setVideoPaused] = useState(true);
+  const [videoSource, setVideoSource] = useState<string | null>(null);
   const {
     musicRef,
     music,
@@ -46,6 +51,30 @@ export default function HeroStage({ projects, intro }: HeroStageProps) {
 
   const active = display === null ? null : projects[display];
   const preview = display === null ? (projects[previewIndex] ?? null) : null;
+  const currentVideoPaused = videoSource === active?.video ? videoPaused : true;
+
+  const syncVideoState = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    setVideoSource(active?.video ?? null);
+    setVideoTime(Number.isFinite(video.currentTime) ? video.currentTime : 0);
+    setVideoDuration(Number.isFinite(video.duration) ? video.duration : 0);
+    setVideoPaused(video.paused);
+  }, [active?.video]);
+
+  const toggleVideo = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) void video.play();
+    else video.pause();
+  }, []);
+
+  const seekVideo = useCallback((time: number) => {
+    const video = videoRef.current;
+    if (!video || !Number.isFinite(time)) return;
+    video.currentTime = time;
+    setVideoTime(time);
+  }, []);
 
   /* A click only plays the disc already centred in the rack — clicking any
      other one just brings it to centre, same as the arrow buttons would. */
@@ -56,7 +85,12 @@ export default function HeroStage({ projects, intro }: HeroStageProps) {
 
   return (
     <section id="work" className={styles.hero} data-playing={display !== null}>
-      <Background active={active} preview={preview} musicRef={musicRef} music={music} />
+      <Background
+        active={active}
+        preview={preview}
+        videoRef={videoRef}
+        onVideoStateChange={syncVideoState}
+      />
 
       {/* Centred on the hero's full height — not just the band between nav
           and rack — so it isn't pulled up by how much room those take. */}
@@ -66,12 +100,24 @@ export default function HeroStage({ projects, intro }: HeroStageProps) {
         music={music}
         musicPaused={musicPaused}
         musicChanging={musicChanging}
+        project={active}
         onToggleMusic={toggleMusic}
         onChangeMusic={changeMusic}
       />
 
-      <div className={styles.mid}>
-        <NowPlaying project={active} />
+      <p className={styles.projectDescription}>{active?.note ?? ""}</p>
+
+      <div className={styles.mid} />
+
+      <div className={styles.videoControlsWrap}>
+        <VideoControls
+          visible={Boolean(active?.video)}
+          currentTime={videoSource === active?.video ? videoTime : 0}
+          duration={videoSource === active?.video ? videoDuration : 0}
+          paused={currentVideoPaused}
+          onToggle={toggleVideo}
+          onSeek={seekVideo}
+        />
       </div>
 
       <Rack

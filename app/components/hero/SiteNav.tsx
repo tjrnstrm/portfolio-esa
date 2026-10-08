@@ -1,46 +1,60 @@
 "use client";
 
 import { useState } from "react";
-import { site, type MusicTrack } from "../../content/projects";
+import { usePathname } from "next/navigation";
+import { site, type MusicTrack, type Project } from "../../content/projects";
 import TransitionLink from "../TransitionLink";
 import NowListening from "./NowListening";
 import styles from "./SiteNav.module.css";
-
-/** Email + LinkedIn — the same two links wherever Contact opens, on
- *  desktop or phone. */
-function ContactLinks({ onNavigate }: { onNavigate?: () => void }) {
-  return (
-    <>
-      <a href={`mailto:${site.email}`} onClick={onNavigate}>{site.email}</a>
-      <a href={site.linkedin} target="_blank" rel="noreferrer" onClick={onNavigate}>
-        LinkedIn
-      </a>
-    </>
-  );
-}
 
 export default function SiteNav({
   music = null,
   musicPaused = false,
   musicChanging = false,
+  project = null,
   onToggleMusic,
   onChangeMusic,
 }: {
   music?: MusicTrack | null;
   musicPaused?: boolean;
   musicChanging?: boolean;
+  project?: Project | null;
   onToggleMusic?: () => void;
   onChangeMusic?: () => void;
 }) {
-  /* Only one of these is ever open at once — opening either closes the
-     other, same as clicking the backdrop does. */
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [contactOpen, setContactOpen] = useState(false);
-  const closeAll = () => { setMenuOpen(false); setContactOpen(false); };
+  const [menuClosing, setMenuClosing] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState<number | null>(null);
+  const activeLink = Math.max(0, site.nav.findIndex((link) => (
+    link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
+  )));
+  const indicatorLink = hoveredLink ?? activeLink;
+  const closeMenu = (immediate = false) => {
+    setHoveredLink(null);
+    if (immediate) {
+      setMenuOpen(false);
+      setMenuClosing(false);
+    } else {
+      setMenuClosing(true);
+    }
+  };
+  const toggleMenu = () => {
+    if (menuOpen && !menuClosing) {
+      closeMenu();
+    } else {
+      setMenuOpen(true);
+      setMenuClosing(false);
+    }
+  };
 
   return (
     <nav className={styles.nav}>
-      {music && onToggleMusic && onChangeMusic ? (
+      {project ? (
+        <div className={styles.projectTitle} aria-live="polite">
+          {project.title}
+        </div>
+      ) : music && onToggleMusic && onChangeMusic ? (
         <NowListening
           music={music}
           paused={musicPaused}
@@ -54,61 +68,65 @@ export default function SiteNav({
         </TransitionLink>
       )}
 
-      {/* Desktop: the plain links inline, Contact as its own dropdown. */}
+      {/* Desktop: all primary routes sit inline. */}
       <span className={styles.links}>
         {site.nav.map((l) => (
           <TransitionLink key={l.label} href={l.href}>{l.label}</TransitionLink>
         ))}
-        <span className={styles.contact}>
-          <button
-            type="button"
-            className={styles.cta}
-            aria-expanded={contactOpen}
-            aria-controls="contact-panel"
-            onClick={() => { setContactOpen((o) => !o); setMenuOpen(false); }}
-          >
-            Contact
-          </button>
-          {contactOpen ? (
-            <span id="contact-panel" className={styles.contactPanel}>
-              <ContactLinks onNavigate={closeAll} />
-            </span>
-          ) : null}
-        </span>
       </span>
 
       {/* Phone: one button opens a panel with everything above in it. */}
       <button
         type="button"
-        className={styles.burger}
-        aria-expanded={menuOpen}
+        className={`${styles.burger} ${menuOpen && !menuClosing ? styles.burgerOpen : ""}`}
+        aria-expanded={menuOpen && !menuClosing}
         aria-controls="mobile-menu"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
-        onClick={() => { setMenuOpen((o) => !o); setContactOpen(false); }}
+        onClick={toggleMenu}
       >
         <span className={styles.burgerBar} />
         <span className={styles.burgerBar} />
         <span className={styles.burgerBar} />
       </button>
 
-      {menuOpen || contactOpen ? (
+      {menuOpen ? (
         <button
           type="button"
           className={styles.backdrop}
           aria-label="Close menu"
-          onClick={closeAll}
+          onClick={() => closeMenu()}
         />
       ) : null}
 
       {menuOpen ? (
-        <div id="mobile-menu" className={styles.menu}>
-          {site.nav.map((l) => (
-            <TransitionLink key={l.label} href={l.href} onClick={closeAll}>
+        <div
+          id="mobile-menu"
+          className={`${styles.menu} ${menuClosing ? styles.menuClosing : ""}`}
+          onMouseLeave={() => setHoveredLink(null)}
+          onAnimationEnd={() => {
+            if (menuClosing) {
+              setMenuOpen(false);
+              setMenuClosing(false);
+            }
+          }}
+        >
+          {site.nav.map((l, index) => (
+            <TransitionLink
+              key={l.label}
+              href={l.href}
+              onClick={() => closeMenu(true)}
+              onMouseEnter={() => setHoveredLink(index)}
+              onFocus={() => setHoveredLink(index)}
+              onBlur={() => setHoveredLink(null)}
+            >
               {l.label}
             </TransitionLink>
           ))}
-          <span className={styles.menuContactLabel}>Contact</span>
-          <ContactLinks onNavigate={closeAll} />
+          <span
+            className={styles.menuIndicator}
+            data-index={indicatorLink}
+            aria-hidden="true"
+          />
         </div>
       ) : null}
     </nav>

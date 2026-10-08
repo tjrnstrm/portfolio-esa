@@ -1,0 +1,101 @@
+.controls {
+  width: min(620px, calc(100vw - 40px));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.playButton {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(5, 5, 5, 0.32);
+  color: var(--on-dark);
+  cursor: pointer;
+}
+.playButton:hover { background: rgba(5, 5, 5, 0.5); }
+.playIcon {
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 7px solid rgba(244, 245, 246, 0.82);
+}
+.pauseIcon {
+  position: relative;
+  width: 8px;
+  height: 9px;
+}
+.pauseIcon::before,
+.pauseIcon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 9px;
+  background: rgba(244, 245, 246, 0.82);
+}
+.pauseIcon::before { left: 1px; }
+.pauseIcon::after { right: 1px; }
+.timeline {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 0;
+  flex: 1;
+  height: 30px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.timeline::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(244, 245, 246, 0.3);
+}
+.timeline::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  margin-top: -3.5px;
+  -webkit-appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(244, 245, 246, 0.76);
+}
+.timeline::-moz-range-track {
+  height: 3px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(244, 245, 246, 0.3);
+}
+.timeline::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(244, 245, 246, 0.76);
+}
+.time {
+  flex: none;
+  min-width: 76px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--on-dark-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .controls { transition-duration: 0.01ms; }
+}

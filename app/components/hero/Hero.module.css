@@ -34,11 +34,33 @@
   padding: 0 clamp(20px, 5vw, 54px);
 }
 
-/* The now-playing readout sits bottom-left, right above the rack. */
+/* Flexible space between the header and the controls above the rack. */
 .mid {
   position: relative; z-index: 5; flex: 1; min-height: 0;
-  display: flex; align-items: flex-end; justify-content: flex-start;
-  padding: 0 clamp(20px, 5vw, 54px) 18px;
+}
+.projectDescription {
+  position: relative;
+  z-index: 5;
+  max-width: 52ch;
+  margin: -13px 0 0;
+  padding: 0 clamp(16px, 5vw, 20px);
+  color: var(--on-dark-2);
+  font-size: 13px;
+  line-height: 1.35;
+  text-shadow: var(--text-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+[data-playing="true"] .projectDescription { opacity: 1; }
+.videoControlsWrap {
+  position: relative;
+  z-index: 5;
+  flex: none;
+  min-height: 38px;
+  display: flex;
+  justify-content: center;
+  padding: 0 clamp(20px, 5vw, 54px) 8px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -47,4 +69,8 @@
 
 @media (min-width: 641px) {
   .hero { min-height: 600px; }
+  .projectDescription {
+    margin-top: -19px;
+    padding-inline: clamp(20px, 5vw, 54px);
+  }
 }

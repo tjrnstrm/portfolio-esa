@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { ViewTransition } from 'react';
+import PageMusicHeader from '../components/hero/PageMusicHeader';
 import Preview from '../components/hero/Preview';
 import { projects, site } from '../content/projects';
-import AboutMusicHeader from './AboutMusicHeader';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -20,30 +21,34 @@ export default function AboutPage() {
       </div>
       <div className={styles.scrim} />
 
-      <AboutMusicHeader />
+      <PageMusicHeader />
 
       <section className={styles.content} aria-labelledby="about-heading">
-        <div className={styles.portraitFrame}>
-          <Image
-            className={styles.portrait}
-            src="/img/IMG_20220718_002828_557.jpg"
-            alt={`Portrait of ${site.fullName}`}
-            fill
-            priority
-            sizes="(min-width: 641px) 360px, 72vw"
-          />
-        </div>
+        <ViewTransition enter="content-fall" default="none">
+          <div className={styles.portraitFrame}>
+            <Image
+              className={styles.portrait}
+              src="/img/ESA-profile.jpg"
+              alt={`Portrait of ${site.fullName}`}
+              fill
+              priority
+              sizes="(min-width: 641px) 360px, 72vw"
+            />
+          </div>
+        </ViewTransition>
 
-        <div className={styles.copy}>
-          <h1 id="about-heading" className={styles.heading}>
-            {site.about.heading}
-          </h1>
-          <ul className={styles.facts}>
-            {site.about.points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </div>
+        <ViewTransition enter="content-fall" default="none">
+          <div className={styles.copy}>
+            <h1 id="about-heading" className={styles.heading}>
+              {site.about.heading}
+            </h1>
+            <ul className={styles.facts}>
+              {site.about.points.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          </div>
+        </ViewTransition>
       </section>
     </main>
   );

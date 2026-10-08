@@ -3,11 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ComponentProps, MouseEvent } from "react";
-import {
-  PAGE_AUDIO_FADE_OUT_MS,
-  PAGE_AUDIO_TRANSITION_KEY,
-  PAGE_LEAVE_EVENT,
-} from "./pageTransition";
+import { useMusicPlayer } from "./hero/useMusicPlayer";
 
 type TransitionLinkProps = Omit<ComponentProps<typeof Link>, "href"> & {
   href: string;
@@ -21,8 +17,9 @@ export default function TransitionLink({
   ...props
 }: TransitionLinkProps) {
   const router = useRouter();
+  const { preparePageNavigation } = useMusicPlayer();
 
-  const navigate = async (event: MouseEvent<HTMLAnchorElement>) => {
+  const navigate = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);
     if (
       event.defaultPrevented ||
@@ -42,12 +39,7 @@ export default function TransitionLink({
     if (sameDocument) return;
 
     event.preventDefault();
-    sessionStorage.setItem(PAGE_AUDIO_TRANSITION_KEY, "1");
-    window.dispatchEvent(new Event(PAGE_LEAVE_EVENT));
-
-    await new Promise((resolve) => {
-      window.setTimeout(resolve, PAGE_AUDIO_FADE_OUT_MS);
-    });
+    preparePageNavigation(target.pathname);
     router.push(`${target.pathname}${target.search}${target.hash}`, { scroll });
   };
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Familjen_Grotesk, DM_Mono } from "next/font/google";
+import { MusicPlayerProvider } from "./components/hero/useMusicPlayer";
 import "./globals.css";
 
 /* next/font downloads and self-hosts these at build time. Nothing is
@@ -28,7 +29,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${grotesk.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <MusicPlayerProvider>{children}</MusicPlayerProvider>
+      </body>
     </html>
   );
 }

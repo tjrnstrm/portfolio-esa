@@ -16,7 +16,7 @@
   opacity: 1;
   transition: opacity 0.5s ease;
 }
-[data-playing='true'] .control {
+[data-playing='true'] .musicControl {
   opacity: 0;
   pointer-events: none;
 }

@@ -55,12 +55,11 @@ export const site = {
     },
   ] satisfies MusicTrack[],
 
-  /** The plain links in the top bar / hamburger menu. Contact isn't listed
-   *  here — it's its own dropdown/panel (see `email` and `linkedin`
-   *  above), the same on desktop and phone. */
+  /** The links in the top bar and hamburger menu. */
   nav: [
-    { label: 'My Sound', href: '/#work' },
+    { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
   ],
 
   about: {
@@ -72,6 +71,12 @@ export const site = {
       'Have worked over 9 years in the restaurant business. Both on land and water.',
       'Outside of gaming and music I have a huge interest in books and reading.',
     ],
+  },
+
+  contact: {
+    heading: 'Let\u2019s make some noise.',
+    intro:
+      'Have a game, film or audio project in mind? Send me a message and tell me what you are working on.',
   },
 };
 

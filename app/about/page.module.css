@@ -42,7 +42,6 @@
   justify-items: center;
   gap: 30px;
 }
-
 .portraitFrame {
   position: relative;
   width: min(72vw, 310px);

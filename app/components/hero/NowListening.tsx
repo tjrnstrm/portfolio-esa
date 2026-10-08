@@ -29,7 +29,7 @@ export default function NowListening({
 
   if (!music) return null;
   return (
-    <div className={styles.control}>
+    <div className={`${styles.control} ${styles.musicControl}`}>
       <button
         type="button"
         className={styles.animationButton}
