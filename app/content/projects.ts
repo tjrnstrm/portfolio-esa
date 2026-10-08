@@ -34,8 +34,9 @@ export const site = {
   fullName: 'Emelie Strand Adolfsson',
   statement: 'Sound design and implementation for games',
   /** The tech stack line, shown just under the statement. */
-  stack: 'Wwise · FMOD · Unreal',
-  award: 'Nominated for Best Audio and game of the year\nat the Swedish Game Awards 2026',
+  stack: 'Sound Designer · Musician · Composer',
+  award:
+    'Nominated for Best Audio and game of the year\nat the Swedish Game Awards 2026',
 
   /** Shown inside the Contact dropdown/panel, on both desktop and phone. */
   email: 'emelie@creekroad.se',
@@ -58,9 +59,20 @@ export const site = {
    *  here — it's its own dropdown/panel (see `email` and `linkedin`
    *  above), the same on desktop and phone. */
   nav: [
-    { label: 'Work', href: '#work' },
-    { label: 'About', href: '#about' },
+    { label: 'My Sound', href: '/#work' },
+    { label: 'About', href: '/about' },
   ],
+
+  about: {
+    heading: 'Hi I\u2019m Emelie!',
+    points: [
+      'Student at Audio Production Academy: Sound Design, Composing and Implementation.',
+      'Over 16 years experience as a musician. I play a bunch of different saxophones, drums and percussion.',
+      'Skills: Cubase, Logic Pro, Reaper, Wwise, FMOD, Unity and Unreal Engine.',
+      'Have worked over 9 years in the restaurant business. Both on land and water.',
+      'Outside of gaming and music I have a huge interest in books and reading.',
+    ],
+  },
 };
 
 export const projects: Project[] = [

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { site, type MusicTrack } from "../../content/projects";
+import TransitionLink from "../TransitionLink";
 import NowListening from "./NowListening";
 import styles from "./SiteNav.module.css";
 
@@ -19,17 +20,17 @@ function ContactLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export default function SiteNav({
-  music,
-  musicPaused,
-  musicChanging,
+  music = null,
+  musicPaused = false,
+  musicChanging = false,
   onToggleMusic,
   onChangeMusic,
 }: {
-  music: MusicTrack | null;
-  musicPaused: boolean;
-  musicChanging: boolean;
-  onToggleMusic: () => void;
-  onChangeMusic: () => void;
+  music?: MusicTrack | null;
+  musicPaused?: boolean;
+  musicChanging?: boolean;
+  onToggleMusic?: () => void;
+  onChangeMusic?: () => void;
 }) {
   /* Only one of these is ever open at once — opening either closes the
      other, same as clicking the backdrop does. */
@@ -39,18 +40,24 @@ export default function SiteNav({
 
   return (
     <nav className={styles.nav}>
-      <NowListening
-        music={music}
-        paused={musicPaused}
-        changing={musicChanging}
-        onToggle={onToggleMusic}
-        onChange={onChangeMusic}
-      />
+      {music && onToggleMusic && onChangeMusic ? (
+        <NowListening
+          music={music}
+          paused={musicPaused}
+          changing={musicChanging}
+          onToggle={onToggleMusic}
+          onChange={onChangeMusic}
+        />
+      ) : (
+        <TransitionLink className={styles.brand} href="/" aria-label={`${site.name} home`}>
+          {site.name}
+        </TransitionLink>
+      )}
 
       {/* Desktop: the plain links inline, Contact as its own dropdown. */}
       <span className={styles.links}>
         {site.nav.map((l) => (
-          <a key={l.label} href={l.href}>{l.label}</a>
+          <TransitionLink key={l.label} href={l.href}>{l.label}</TransitionLink>
         ))}
         <span className={styles.contact}>
           <button
@@ -96,7 +103,9 @@ export default function SiteNav({
       {menuOpen ? (
         <div id="mobile-menu" className={styles.menu}>
           {site.nav.map((l) => (
-            <a key={l.label} href={l.href} onClick={closeAll}>{l.label}</a>
+            <TransitionLink key={l.label} href={l.href} onClick={closeAll}>
+              {l.label}
+            </TransitionLink>
           ))}
           <span className={styles.menuContactLabel}>Contact</span>
           <ContactLinks onNavigate={closeAll} />

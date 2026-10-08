@@ -8,23 +8,15 @@
 }
 
 .wordmark {
-  font-weight: 700;
-  font-size: clamp(76px, 13vw, 158px);
-  line-height: 0.84;
-  letter-spacing: 0.1em;
-  margin: 0;
-  text-shadow: var(--text-shadow);
+  position: relative;
+  width: min(68vw, 700px);
+  aspect-ratio: 1.7;
+  margin: 0 auto;
+  overflow: hidden;
+  filter: drop-shadow(0 2px 14px rgba(5, 5, 5, 0.55));
 }
-/* Tiny, tight under the wordmark — reads as its underline/caption rather
-   than a second headline. */
-.fullName {
-  margin: 5px 0 0;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--on-dark-2);
-  text-shadow: var(--text-shadow);
+.logo {
+  object-fit: cover;
 }
 /* One row, always — no max-width to wrap against, and it shrinks with the
    viewport instead. If it still can't fit, it trims rather than wraps or

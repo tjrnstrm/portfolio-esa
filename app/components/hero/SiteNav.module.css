@@ -9,6 +9,10 @@
   font-family: var(--font-mono);
   font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
 }
+.brand {
+  position: relative; z-index: 2;
+  color: var(--on-dark); letter-spacing: 0.3em; font-weight: 500; text-decoration: none;
+}
 /* ── desktop: inline links + a Contact dropdown ── */
 .links { display: none; align-items: center; gap: 12px; }
 .links a {
