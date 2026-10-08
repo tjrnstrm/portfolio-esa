@@ -1,14 +1,17 @@
-.rackWrap { position: relative; z-index: 2; flex: none; }
+.rackWrap {
+  --disc-size: clamp(104px, 31vw, 124px);
+  position: relative; z-index: 2; flex: none;
+}
 .rack {
   display: flex; align-items: flex-start; gap: clamp(18px, 3vw, 38px);
   overflow-x: auto; overflow-y: hidden;
   scroll-snap-type: x mandatory; scroll-behavior: smooth;
-  padding: 8px calc(50% - 62px) 16px;
+  padding: 8px calc((100% - var(--disc-size)) / 2) 16px;
   scrollbar-width: none; -ms-overflow-style: none;
 }
 .rack::-webkit-scrollbar { display: none; }
 
-.slot { scroll-snap-align: center; flex: none; width: 124px; text-align: center; }
+.slot { scroll-snap-align: center; flex: none; width: var(--disc-size); text-align: center; }
 
 .cap { margin-top: 13px; display: block; }
 .capTitle { font-weight: 600; font-size: 13.5px; display: block; color: var(--on-dark); }
@@ -47,6 +50,5 @@
 }
 
 @media (min-width: 641px) {
-  .rack { padding-left: calc(50% - 72px); padding-right: calc(50% - 72px); }
-  .slot { width: 144px; }
+  .rackWrap { --disc-size: 144px; }
 }

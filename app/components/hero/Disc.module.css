@@ -1,5 +1,5 @@
 .disc {
-  position: relative; width: 124px; height: 124px; margin: 0 auto;
+  position: relative; width: var(--disc-size, 124px); height: var(--disc-size, 124px); margin: 0 auto;
   border: 0; padding: 0; background: none; cursor: pointer; display: block;
 }
 .vinyl {
@@ -41,6 +41,3 @@
 .loaded .hub { opacity: 0; }
 .loaded { cursor: default; }
 
-@media (min-width: 641px) {
-  .disc { width: 144px; height: 144px; }
-}
