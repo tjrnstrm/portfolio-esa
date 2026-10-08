@@ -3,19 +3,13 @@
 .project { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease; }
 .projectOn { opacity: 1; }
 
-/* Full-bleed on phone: filling the screen matters more there than the
-   letterboxing it costs. */
+/* Match the idle preview: fill the available frame at every viewport size.
+   The video adapts with the hero and crops only what falls outside it. */
 .player {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   background: #000;
-}
-
-@media (min-width: 641px) {
-  /* contain, not cover: the point of an implementation clip is the Wwise
-     window and the profiler in the corners. Cropping removes the evidence. */
-  .player { object-fit: contain; }
 }
 
 .scrim {
