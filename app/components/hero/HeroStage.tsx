@@ -76,12 +76,11 @@ export default function HeroStage({ projects, intro }: HeroStageProps) {
     setVideoTime(time);
   }, []);
 
-  /* A click only plays the disc already centred in the rack — clicking any
-     other one just brings it to centre, same as the arrow buttons would. */
+  /* Clicking any new disc centres and loads it in one sequence. Clicking
+     the disc already in the deck still ejects it. */
   const selectDisc = useCallback((i: number) => {
-    if (i === center) toggle(i);
-    else settle(i);
-  }, [center, toggle, settle]);
+    void toggle(i);
+  }, [toggle]);
 
   return (
     <section id="work" className={styles.hero} data-playing={display !== null}>

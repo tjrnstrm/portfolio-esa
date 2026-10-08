@@ -12,8 +12,7 @@ type RackProps = {
   focused: number;
   rackRef: RefObject<HTMLDivElement | null>;
   discRefs: RefObject<(HTMLButtonElement | null)[]>;
-  /** A disc was clicked — plays it if focused, otherwise just brings it
-   *  into focus. */
+  /** A disc was clicked — centre it and load it into the deck. */
   onSelect: (i: number) => void;
   onStep: (delta: number) => void;
   /** A disc gained the mouse (index), or the rack lost it entirely (null). */

@@ -9,7 +9,7 @@
 
 .wordmark {
   position: relative;
-  width: min(68vw, 700px);
+  width: min(60vw, 500px);
   aspect-ratio: 1.7;
   margin: 0 auto;
   overflow: hidden;

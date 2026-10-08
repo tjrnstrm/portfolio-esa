@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Image from "next/image";
 import type { MusicTrack } from "../../content/projects";
 import styles from "./NowListening.module.css";
 
@@ -18,15 +18,6 @@ export default function NowListening({
   onToggle: () => void;
   onChange: () => void;
 }) {
-  const animationRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const animation = animationRef.current;
-    if (!animation) return;
-    if (paused) animation.pause();
-    else animation.play().catch(() => {});
-  }, [paused]);
-
   if (!music) return null;
   return (
     <div className={`${styles.control} ${styles.musicControl}`}>
@@ -37,15 +28,13 @@ export default function NowListening({
         aria-label={paused ? "Resume background music" : "Pause background music"}
         aria-pressed={paused}
       >
-        <video
-          ref={animationRef}
+        <Image
           className={styles.saxophonist}
-          src="/saxophonist_alpha.webm"
-          muted
-          autoPlay
-          loop
-          playsInline
-          aria-hidden="true"
+          src={paused ? "/saxophonist_still.webp" : "/saxophonist_alpha.gif"}
+          alt=""
+          width={40}
+          height={40}
+          unoptimized
         />
       </button>
       <button
