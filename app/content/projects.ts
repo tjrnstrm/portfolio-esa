@@ -32,8 +32,9 @@ export const site = {
   stack: 'Wwise · FMOD · Unreal',
   award: 'Nominated for Best Audio and game of the year at the Swedish Game Awards 2026 ',
 
-  email: 'hej@esa.se',
-  linkedin: 'https://www.linkedin.com/in/',
+  /** Shown inside the Contact dropdown/panel, on both desktop and phone. */
+  email: 'emelie@creekroad.se',
+  linkedin: 'https://www.linkedin.com/in/emelie-strand-adolfsson-6057b0401/',
 
   /** Plays low behind the rack while browsing — before any disc has
    *  actually been clicked. Put the file in /public/music/ and write
@@ -44,16 +45,12 @@ export const site = {
     title: 'Bony Tony: The Revenge — Sewers',
   },
 
-  /** Links in the top bar. `cta` gets the filled button. */
+  /** The plain links in the top bar / hamburger menu. Contact isn't listed
+   *  here — it's its own dropdown/panel (see `email` and `linkedin`
+   *  above), the same on desktop and phone. */
   nav: [
     { label: 'Work', href: '#work' },
     { label: 'About', href: '#about' },
-    { label: 'emelie@creekroad.se', href: 'mailto:emelie@creekroad.se' },
-    {
-      label: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/emelie-strand-adolfsson-6057b0401/',
-    },
-    { label: 'Contact', href: '#contact', cta: true },
   ],
 };
 
