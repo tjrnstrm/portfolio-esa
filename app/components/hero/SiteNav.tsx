@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { site } from "../../content/projects";
+import { site, type MusicTrack } from "../../content/projects";
+import NowListening from "./NowListening";
 import styles from "./SiteNav.module.css";
 
 /** Email + LinkedIn — the same two links wherever Contact opens, on
@@ -18,7 +18,19 @@ function ContactLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-export default function SiteNav() {
+export default function SiteNav({
+  music,
+  musicPaused,
+  musicChanging,
+  onToggleMusic,
+  onChangeMusic,
+}: {
+  music: MusicTrack | null;
+  musicPaused: boolean;
+  musicChanging: boolean;
+  onToggleMusic: () => void;
+  onChangeMusic: () => void;
+}) {
   /* Only one of these is ever open at once — opening either closes the
      other, same as clicking the backdrop does. */
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,7 +39,13 @@ export default function SiteNav() {
 
   return (
     <nav className={styles.nav}>
-      <Link className={styles.brand} href="/">{site.name}</Link>
+      <NowListening
+        music={music}
+        paused={musicPaused}
+        changing={musicChanging}
+        onToggle={onToggleMusic}
+        onChange={onChangeMusic}
+      />
 
       {/* Desktop: the plain links inline, Contact as its own dropdown. */}
       <span className={styles.links}>

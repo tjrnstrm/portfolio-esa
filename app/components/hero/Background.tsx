@@ -1,6 +1,5 @@
 import type { Ref } from "react";
-import type { Project } from "../../content/projects";
-import { site } from "../../content/projects";
+import type { MusicTrack, Project } from "../../content/projects";
 import Preview from "./Preview";
 import styles from "./Background.module.css";
 
@@ -12,11 +11,13 @@ export default function Background({
   active,
   preview,
   musicRef,
+  music,
 }: {
   active: Project | null;
   /** The hovered-or-centred project, shown blurred while idle. */
   preview: Project | null;
   musicRef: Ref<HTMLAudioElement>;
+  music: MusicTrack | null;
 }) {
   return (
     <>
@@ -32,8 +33,8 @@ export default function Background({
           loads, back in once the hero goes back to idle, never stopped, so
           it never restarts from the top. Silent until a real click has
           given the browser a reason to let audio play at all. */}
-      {site.music.src ? (
-        <audio ref={musicRef} src={site.music.src} loop preload="auto" />
+      {music ? (
+        <audio ref={musicRef} src={music.src} loop preload="auto" />
       ) : null}
 
       <div className={styles.scrim} />

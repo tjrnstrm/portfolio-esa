@@ -18,9 +18,14 @@ export type Project = {
   note: string;
   /** Still image. Put the file in /public/posters/ and write "/posters/name.jpg" */
   poster: string;
-  /** Video file. Put it in /public/video/ and write "/video/name.mp4".
+  /** Video file. Put it in /public/video/ and write "/video/name.webm".
    *  Leave as "" until the video exists — the poster shows on its own. */
   video: string;
+};
+
+export type MusicTrack = {
+  src: string;
+  title: string;
 };
 
 export const site = {
@@ -30,20 +35,24 @@ export const site = {
   statement: 'Sound design and implementation for games',
   /** The tech stack line, shown just under the statement. */
   stack: 'Wwise · FMOD · Unreal',
-  award: 'Nominated for Best Audio and game of the year at the Swedish Game Awards 2026 ',
+  award: 'Nominated for Best Audio and game of the year\nat the Swedish Game Awards 2026',
 
   /** Shown inside the Contact dropdown/panel, on both desktop and phone. */
   email: 'emelie@creekroad.se',
   linkedin: 'https://www.linkedin.com/in/emelie-strand-adolfsson-6057b0401/',
 
-  /** Plays low behind the rack while browsing — before any disc has
-   *  actually been clicked. Put the file in /public/music/ and write
-   *  "/music/name.mp3". Leave `src` as "" to go without music. `title` is
-   *  shown under the header as "Now playing"; leave it "" to hide that. */
-  music: {
-    src: '/music/BTR - Sewers.wav',
-    title: 'Bony Tony: The Revenge — Sewers',
-  },
+  /** Plays low behind the rack while browsing. Clicking the title chooses
+   *  another entry at random without immediately repeating the current one. */
+  music: [
+    {
+      src: '/music/BTR - Sewers.wav',
+      title: 'Bony Tony: The Revenge — Sewers',
+    },
+    {
+      src: '/music/BTR - Casino.wav',
+      title: 'Bony Tony: The Revenge — Casino',
+    },
+  ] satisfies MusicTrack[],
 
   /** The plain links in the top bar / hamburger menu. Contact isn't listed
    *  here — it's its own dropdown/panel (see `email` and `linkedin`
@@ -57,44 +66,30 @@ export const site = {
 export const projects: Project[] = [
   {
     title: 'Showreel 2026',
-    meta: 'Reel · 2:14',
+    meta: 'Showreel',
     note: 'Two minutes of the work, cut for people with thirty seconds.',
+    poster: '/discs/logo.webp',
+    video: '/video/showreel.webm',
+  },
+  {
+    title: 'Bony Tony',
+    meta: 'Game audio',
+    note: 'Sound design and implementation for Bony Tony: The Revenge.',
     poster: '/discs/BonyTony.png',
-    video: '/video/showreel.mp4',
+    video: '/video/BonyTony.webm',
   },
   {
-    title: 'Projekttitel',
-    meta: 'Wwise · combat layer',
-    note: 'Event layout and the player-health RTPC responding in engine.',
-    poster: '/posters/projekt.jpg',
-    video: '',
+    title: 'Metroid Prime',
+    meta: 'Sound redesign',
+    note: 'A sound redesign focused on atmosphere, movement, and combat.',
+    poster: '/discs/metroid.webp',
+    video: '/video/MetroidPrime.webm',
   },
   {
-    title: 'Forest ambience',
-    meta: 'Unreal · MetaSounds',
-    note: 'The MetaSounds graph on screen as the ambience shifts with time of day.',
-    poster: '/posters/forest.jpg',
-    video: '',
-  },
-  {
-    title: 'UI suite',
-    meta: 'Menu · 24 cues',
-    note: 'Every cue heard in context, driven through the real menu.',
-    poster: '/posters/ui.jpg',
-    video: '',
-  },
-  {
-    title: 'Creature foley',
-    meta: 'Field rec · layered',
-    note: 'Before and after against picture, plus the raw recordings.',
-    poster: '/posters/foley.jpg',
-    video: '',
-  },
-  {
-    title: 'Impact set',
-    meta: 'FMOD · randomised',
-    note: 'The randomisation container firing repeatedly — no two hits identical.',
-    poster: '/posters/impact.jpg',
-    video: '',
+    title: 'Battlefield',
+    meta: 'Sound design',
+    note: 'A focused selection of weapon and combat sound design.',
+    poster: '/discs/Battlefield.webp',
+    video: '/video/Battlefield.webm',
   },
 ];

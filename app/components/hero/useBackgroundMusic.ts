@@ -6,8 +6,12 @@ import { useEffect, type RefObject } from "react";
  *  not just the first one, since that attempt can itself fail (the media
  *  still buffering, say) and there's no way to tell in advance which
  *  gesture will be the one that actually unlocks it. */
-export function useBackgroundMusic(musicRef: RefObject<HTMLAudioElement | null>) {
+export function useBackgroundMusic(
+  musicRef: RefObject<HTMLAudioElement | null>,
+  enabled = true,
+) {
   useEffect(() => {
+    if (!enabled) return;
     const el = musicRef.current;
     if (!el) return;
 
@@ -30,5 +34,5 @@ export function useBackgroundMusic(musicRef: RefObject<HTMLAudioElement | null>)
       window.removeEventListener("pointerdown", onGesture);
       window.removeEventListener("keydown", onGesture);
     };
-  }, [musicRef]);
+  }, [musicRef, enabled]);
 }

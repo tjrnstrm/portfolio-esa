@@ -18,8 +18,9 @@ export function useMusicFade(musicRef: RefObject<HTMLAudioElement | null>) {
 
     const step = (now: number) => {
       if (tokenRef.current !== token) return;
-      const t = Math.min(1, (now - start) / duration);
-      el.volume = from + (target - from) * t;
+      const t = Math.max(0, Math.min(1, (now - start) / duration));
+      const volume = from + (target - from) * t;
+      el.volume = Math.max(0, Math.min(1, volume));
       if (t < 1) {
         requestAnimationFrame(step);
       } else if (target === 0) {
