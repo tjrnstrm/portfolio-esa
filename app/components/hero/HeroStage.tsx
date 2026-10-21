@@ -5,7 +5,6 @@ import { showreel, type Project, type ProjectInfo } from "../../content/projects
 import Background from "./Background";
 import Intro from "./Intro";
 import Shelves from "./Shelves";
-import SiteNav from "./SiteNav";
 import Sparkle from "./Sparkle";
 import VideoControls from "./VideoControls";
 import { useMusicPlayer } from "./useMusicPlayer";
@@ -93,7 +92,6 @@ export default function HeroStage({ discs }: { discs: Project[] }) {
         onVideoStateChange={syncVideoState}
       />
 
-      <SiteNav />
       <Intro onPlayShowreel={() => play(showreel)} />
       <Shelves discs={discs} onPlay={play} onHover={setHovered} />
 

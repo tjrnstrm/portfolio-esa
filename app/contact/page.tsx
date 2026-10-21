@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { ViewTransition } from 'react';
-import SiteNav from '../components/hero/SiteNav';
 import Preview from '../components/hero/Preview';
 import { showreel, site } from '../content/projects';
 import ContactForm from './ContactForm';
@@ -19,8 +18,6 @@ export default function ContactPage() {
         <Preview project={showreel} />
       </div>
       <div className={styles.scrim} />
-
-      <SiteNav />
 
       <section className={styles.content} aria-labelledby="contact-heading">
         <ViewTransition enter="content-fall" default="none">

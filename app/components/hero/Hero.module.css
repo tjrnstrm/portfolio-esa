@@ -8,6 +8,9 @@
 
 .hero {
   --ease: cubic-bezier(0.22, 0.61, 0.24, 1);
+  /* The header floats over the top (it's in the root layout), so leave its
+     room here; the logo and discs lay out below it as before. */
+  padding-top: var(--nav-height);
 
   position: relative;
   height: 100vh;   /* fallback */

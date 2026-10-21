@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Familjen_Grotesk, DM_Mono } from 'next/font/google';
+import SiteNav from './components/hero/SiteNav';
 import { MusicPlayerProvider } from './components/hero/useMusicPlayer';
 import './globals.css';
 
@@ -29,7 +30,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={`${grotesk.variable} ${mono.variable}`}>
       <body>
-        <MusicPlayerProvider>{children}</MusicPlayerProvider>
+        <MusicPlayerProvider>
+          {/* Outside the page template, so it doesn't blur between pages. */}
+          <SiteNav />
+          {children}
+        </MusicPlayerProvider>
       </body>
     </html>
   );

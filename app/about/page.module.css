@@ -1,5 +1,6 @@
 .page {
   position: relative;
+  padding-top: var(--nav-height);
   min-height: 100vh;
   min-height: 100svh;
   overflow: hidden;

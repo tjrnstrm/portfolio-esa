@@ -52,7 +52,9 @@ app/
     Shelves.tsx  Disc.tsx      the "Portfolio" row of discs
     Background.tsx             blurred preview behind, and the playing video
     VideoControls.tsx          play/pause and the timeline
-    SiteNav.tsx                header: nav links (desktop) / menu (phone)
+    SiteNav.tsx                header: nav links (desktop) / menu (phone);
+                               rendered once in layout.tsx so it doesn't blur
+                               when pages change
     MusicPicker.tsx            Play BGM: track list, mute and volume
     useMusicPlayer.tsx         the one audio element: tracks, volume, fades
     Sparkle.tsx                the gold award star

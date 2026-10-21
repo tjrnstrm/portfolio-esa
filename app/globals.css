@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 :root {
+  /* Height of the header (SiteNav), which floats over the top of every
+     page; pages leave this much room at the top. */
+  --nav-height: 68px;
+
   --paper: #ffffff;
   --ink: #0a0a0a;
 
@@ -51,6 +55,27 @@ html, body {
   animation: 520ms cubic-bezier(0.2, 0.75, 0.25, 1) 80ms both content-fall-in;
 }
 
+/* The header (in the root layout) gets its own layer. Without one it sits
+   in the root layer, beneath the full-screen snapshots of the old and new
+   page, and so disappears for the length of the change and flashes back.
+   As its own layer it's drawn above them and left alone: no animation, and
+   only the new state is shown. */
+[data-site-nav] {
+  view-transition-name: site-nav;
+}
+::view-transition-group(site-nav) {
+  animation: none;
+  /* Layers stack in document order, and the header comes before the page,
+     so lift it above the page layers or they fade in over it. */
+  z-index: 10;
+}
+::view-transition-old(site-nav) {
+  display: none;
+}
+::view-transition-new(site-nav) {
+  animation: none;
+}
+
 @keyframes page-blur-out {
   from { opacity: 1; filter: blur(0); }
   to { opacity: 0; filter: blur(10px); }
@@ -71,4 +96,8 @@ html, body {
     animation-duration: 0s !important;
     animation-delay: 0s !important;
   }
+}
+
+@media (min-width: 641px) {
+  :root { --nav-height: 80px; }
 }

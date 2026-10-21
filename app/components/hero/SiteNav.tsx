@@ -7,7 +7,7 @@ import TransitionLink from "../TransitionLink";
 import MusicPicker from "./MusicPicker";
 import styles from "./SiteNav.module.css";
 
-/** The header on every page: the music (with its volume) on the left, the
+/** The header on every page (rendered once, in the root layout): the music (with its volume) on the left, the
  *  page links in one row at the centre on desktop, and a menu button on
  *  the right on phones. */
 export default function SiteNav() {
@@ -38,7 +38,7 @@ export default function SiteNav() {
   };
 
   return (
-    <nav className={styles.nav}>
+    <nav className={styles.nav} data-site-nav>
       <MusicPicker />
 
       {/* Desktop only. */}

@@ -1,10 +1,15 @@
-/* High enough that this whole subtree — including the fixed-position
-   backdrop — always sits above every other layer in the hero, regardless
-   of how their own z-indices compare to each other. */
+/* Lives in the root layout, outside the page-change animation, so it stays
+   put (not blurred) while pages swap underneath. It floats over the top of
+   the page, which leaves --nav-height (globals.css) of room for it, and
+   scrolls away with the page. High enough that this whole subtree,
+   including the fixed-position backdrop, sits above every other layer,
+   whatever their own z-indices. */
 .nav {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
-  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,8 +21,10 @@
   text-transform: uppercase;
   transition: opacity 0.4s ease;
 }
-/* While a video plays the header steps back with everything else. */
-[data-playing="true"] .nav {
+/* While a video plays the header steps back with everything else. It's no
+   longer inside the hero, so look for the playing hero anywhere on the
+   page. */
+body:has([data-playing="true"]) .nav {
   opacity: 0;
   pointer-events: none;
 }

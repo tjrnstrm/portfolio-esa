@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { ViewTransition } from 'react';
 import { PiMedalThin } from 'react-icons/pi';
-import SiteNav from '../components/hero/SiteNav';
 import Preview from '../components/hero/Preview';
 import { showreel, site } from '../content/projects';
 import styles from './page.module.css';
@@ -19,8 +18,6 @@ export default function AboutPage() {
         <Preview project={showreel} />
       </div>
       <div className={styles.scrim} />
-
-      <SiteNav />
 
       <section className={styles.content} aria-labelledby="about-heading">
         <ViewTransition enter="content-fall" default="none">
