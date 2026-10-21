@@ -1,7 +1,7 @@
 import styles from "./Sparkle.module.css";
 
-/** The gold award star: twinkles every few seconds, in time with the
- *  shimmer on the nominated shelf heading. Position it with `className`. */
+/** The gold award star, twinkling every few seconds. Position it with
+ *  `className`. */
 export default function Sparkle({ size = 10, className = "" }: { size?: number; className?: string }) {
   return (
     <svg

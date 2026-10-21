@@ -4,14 +4,17 @@
    Everything the homepage shows comes from here. Changing the site
    means changing this file — nothing else needs touching.
 
-   To add a project: copy one block inside a shelf's `projects` and fill
-   it in. To reorder a shelf: move blocks up or down. To remove one:
+   To add a project: copy one block inside `discs` (at the bottom) and
+   fill it in. To reorder the discs: move blocks up or down. To remove one:
    delete its block.
    ──────────────────────────────────────────────────────────────── */
 
 export type Project = {
   /** Shown under the disc. */
   title: string;
+  /** The category, e.g. "Sound redesign". The title turns into this while
+   *  the disc is hovered. Optional: leave it out and the title stays. */
+  meta?: string;
   /** One sentence about the work. Read out to screen readers. */
   note: string;
   /** The disc's artwork. Put the file in /public/discs/ and write "/discs/name.webp" */
@@ -45,11 +48,6 @@ export type ProjectInfo = {
   work?: string;
   /** An award or nomination, shown with a sparkle. Optional. */
   award?: string;
-};
-
-export type Shelf = {
-  title: string;
-  projects: Project[];
 };
 
 export type MusicTrack = {
@@ -126,7 +124,7 @@ const bonyTonyInfo: ProjectInfo = {
 };
 
 /** Played by the "Play showreel" button under the logo, and by its disc
- *  on the My Work shelf. `length` is the label on that button. */
+ *  in `discs`. `length` is the label on that button. */
 export const showreel: Project & { length: string } = {
   title: 'Showreel',
   note: 'Two minutes of the work, cut for people with thirty seconds.',
@@ -156,39 +154,32 @@ export const showreel: Project & { length: string } = {
   ],
 };
 
-/** The two rows of discs at the bottom of the home page. */
-export const shelves: Shelf[] = [
+/** The discs along the bottom of the home page, in order. */
+export const discs: Project[] = [
+  showreel,
   {
-    title: 'Audio design',
-    projects: [
-      {
-        title: 'Metroid Prime',
-        note: 'A sound redesign focused on atmosphere, movement, and combat.',
-        poster: '/discs/metroid.webp',
-        video: '/video/MetroidPrime.webm',
-        info: { game: 'Metroid Prime: Remastered', lines: ['Sound re-design'] },
-      },
-      {
-        title: 'Battlefield',
-        note: 'A focused selection of weapon and combat sound design.',
-        poster: '/discs/Battlefield.webp',
-        video: '/video/Battlefield.webm',
-        info: { game: 'Battlefield 3', lines: ['Sound re-design'] },
-      },
-    ],
+    title: 'Bony Tony',
+    meta: 'Soundtrack',
+    note: 'Ambient sound design and saxophone for Bony Tony: The Revenge.',
+    poster: '/discs/BonyTony.png',
+    video: '/video/BonyTony.webm',
+    nominee: true,
+    info: bonyTonyInfo,
   },
   {
-    title: 'My Work',
-    projects: [
-      showreel,
-      {
-        title: 'Bony Tony',
-        note: 'Ambient sound design and saxophone for Bony Tony: The Revenge.',
-        poster: '/discs/BonyTony.png',
-        video: '/video/BonyTony.webm',
-        nominee: true,
-        info: bonyTonyInfo,
-      },
-    ],
+    title: 'Metroid Prime',
+    meta: 'Sound redesign',
+    note: 'A sound redesign focused on atmosphere, movement, and combat.',
+    poster: '/discs/metroid.webp',
+    video: '/video/MetroidPrime.webm',
+    info: { game: 'Metroid Prime: Remastered', lines: ['Sound re-design'] },
+  },
+  {
+    title: 'Battlefield 3',
+    meta: 'Sound redesign',
+    note: 'A focused selection of weapon and combat sound design.',
+    poster: '/discs/Battlefield.webp',
+    video: '/video/Battlefield.webm',
+    info: { game: 'Battlefield 3', lines: ['Sound re-design'] },
   },
 ];

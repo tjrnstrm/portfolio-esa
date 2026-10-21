@@ -34,7 +34,9 @@
   width: min(100%, 1120px);
   min-height: calc(100svh - 72px);
   margin: 0 auto;
-  padding: 28px clamp(20px, 6vw, 72px) 64px;
+  /* Room at the top on phones so the open hamburger menu clears the
+     portrait instead of sitting on it. */
+  padding: 60px clamp(20px, 6vw, 72px) 64px;
   display: grid;
   align-content: center;
   justify-items: center;
@@ -77,6 +79,7 @@
 }
 .role {
   margin: 12px 0 0;
+  text-wrap: balance;
   font-family: var(--font-mono);
   font-size: var(--text-label);
   letter-spacing: 0.16em;
@@ -108,13 +111,16 @@
   gap: 10px;
   font-family: var(--font-mono);
   font-size: var(--text-label);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 .nominationDetail {
   margin: 0;
   font-size: 14px;
   line-height: 1.45;
+  /* Even lines rather than a lone word left on the last one. */
+  text-wrap: balance;
   color: var(--on-dark-2);
 }
 .facts {

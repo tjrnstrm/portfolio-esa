@@ -46,14 +46,6 @@
   gap: 14px;
 }
 
-/* Info on the left, Close on the right, both resting on the controls. */
-.dockTop {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-}
-.close { margin-left: auto; flex: none; }
 
 /* Old and new info share one grid cell, so a change (the showreel's next
    clip) cross-fades in place, both resting on the bottom edge. */
@@ -107,20 +99,20 @@
 }
 .infoAward svg { flex: none; margin-top: 5px; }
 
+/* Round, just the ✕, in the top right corner. */
 .close {
-  height: 40px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
   border: 1px solid rgba(244, 245, 246, 0.4);
-  border-radius: 999px;
+  border-radius: 50%;
   background: rgba(5, 5, 5, 0.5);
   color: var(--on-dark);
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   cursor: pointer;
 }
 .close:hover { border-color: var(--on-dark); }
@@ -183,6 +175,7 @@
 @media (min-width: 641px) {
   .hero { min-height: 600px; }
   .dock { bottom: 32px; }
+  .close { top: 22px; right: clamp(20px, 5vw, 44px); }
   .infoGame { font-size: 34px; letter-spacing: -0.02em; }
   .infoLine, .infoWork, .infoAward { font-size: 18px; }
   .infoLabel { font-size: 13px; }

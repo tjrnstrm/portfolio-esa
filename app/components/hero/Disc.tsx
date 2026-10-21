@@ -2,10 +2,10 @@ import { site, type Project } from "../../content/projects";
 import Sparkle from "./Sparkle";
 import styles from "./Disc.module.css";
 
-/** One record on a shelf: the project's artwork as the vinyl, grooves, a
+/** One record in the row: the project's artwork as the vinyl, grooves, a
  *  spindle hole (or a coloured label, if it has one). Clicking it plays
- *  the project. A nominated piece mentions the award on hover and to
- *  screen readers; the shelf heading carries the badge. */
+ *  the project. A nominated piece mentions the award to screen readers,
+ *  and its star turns into "SGA Nominee" on hover. */
 export default function Disc({
   project,
   onPlay,
@@ -38,20 +38,22 @@ export default function Disc({
         ) : null}
         <span className={styles.hole} />
       </button>
-      <span className={styles.caption}>
+      {/* Title and category share a spot; hovering swaps one for the other.
+          A nominee's star becomes "SGA Nominee" underneath. */}
+      <span className={styles.caption} aria-hidden="true">
         <span className={styles.title}>
           <span className={styles.titleText}>
             {project.title}
-            {project.nominee ? (
-              <span className={styles.tag} aria-hidden="true">
-                <span className={styles.tagStar}>
-                  <Sparkle size={8} />
-                </span>
-                <span className={styles.tagText}>SGA Nominee</span>
-              </span>
-            ) : null}
+            {project.nominee ? <Sparkle size={8} className={styles.star} /> : null}
           </span>
         </span>
+        {project.meta ? <span className={styles.meta}>{project.meta}</span> : null}
+        {project.nominee ? (
+          <span className={styles.nomineeLine}>
+            <Sparkle size={8} />
+            SGA Nominee
+          </span>
+        ) : null}
       </span>
     </div>
   );

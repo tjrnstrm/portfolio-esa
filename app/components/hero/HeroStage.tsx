@@ -1,21 +1,22 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { showreel, type Project, type ProjectInfo, type Shelf } from "../../content/projects";
+import { showreel, type Project, type ProjectInfo } from "../../content/projects";
 import Background from "./Background";
 import Intro from "./Intro";
 import Shelves from "./Shelves";
 import SiteNav from "./SiteNav";
+import Sparkle from "./Sparkle";
 import VideoControls from "./VideoControls";
 import { useMusicFade } from "./useMusicFade";
 import { useMusicPlayer } from "./useMusicPlayer";
 import styles from "./Hero.module.css";
 
 /** The home page. While browsing: header, logo with the showreel button,
- *  and the shelves of discs over a blurred preview. Playing anything fades
+ *  and the row of discs over a blurred preview. Playing anything fades
  *  all of that out and leaves the video, its controls and a close button.
  *  `data-playing` on the section is what every stylesheet keys off. */
-export default function HeroStage({ shelves }: { shelves: Shelf[] }) {
+export default function HeroStage({ discs }: { discs: Project[] }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
@@ -96,29 +97,26 @@ export default function HeroStage({ shelves }: { shelves: Shelf[] }) {
 
       <SiteNav />
       <Intro onPlayShowreel={() => play(showreel)} />
-      <Shelves shelves={shelves} onPlay={play} onHover={setHovered} />
+      <Shelves discs={discs} onPlay={play} onHover={setHovered} />
 
-      {/* The only things left on screen while a video plays: a few lines
-          about the work with Close beside them, and under those the
-          playing disc beside the video controls. */}
+      {/* The only things left on screen while a video plays: a round close
+          button top right, and at the bottom a few lines about the work
+          over the playing disc and the video controls. */}
       <div className={styles.player} aria-hidden={!playing}>
+        <button
+          ref={closeRef}
+          type="button"
+          className={styles.close}
+          onClick={close}
+          tabIndex={playing ? 0 : -1}
+          aria-label={active ? `Close ${active.title}` : "Close video"}
+        >
+          <svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M2 2 L10 10 M10 2 L2 10" stroke="currentColor" strokeWidth="1.4" />
+          </svg>
+        </button>
         <div className={styles.dock}>
-          <div className={styles.dockTop}>
-            <InfoFade info={info} />
-            <button
-              ref={closeRef}
-              type="button"
-              className={styles.close}
-              onClick={close}
-              tabIndex={playing ? 0 : -1}
-              aria-label={active ? `Close ${active.title}` : "Close video"}
-            >
-              <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                <path d="M2 2 L10 10 M10 2 L2 10" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              Close
-            </button>
-          </div>
+          <InfoFade info={info} />
           <div className={styles.deck}>
             {shown ? (
               <span
@@ -204,9 +202,7 @@ function InfoBlock({ info, className }: { info: ProjectInfo; className: string }
       ) : null}
       {info.award ? (
         <p className={styles.infoAward}>
-          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
-            <path d="M5 0 Q5.6 4.4 10 5 Q5.6 5.6 5 10 Q4.4 5.6 0 5 Q4.4 4.4 5 0 Z" fill="currentColor" />
-          </svg>
+          <Sparkle size={11} />
           {info.award}
         </p>
       ) : null}

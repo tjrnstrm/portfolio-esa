@@ -1,6 +1,5 @@
 .sparkle {
   color: #d9c38c;
-  filter: drop-shadow(0 0 4px rgba(217, 195, 140, 0.6));
   animation: twinkle 3.2s ease-in-out infinite;
 }
 @keyframes twinkle {
