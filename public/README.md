@@ -1,33 +1,45 @@
 # Assets
 
-**`/posters`** — one still per project. Export them all at the same crop,
-around 1600px wide. Six frames that look like one set is the difference
-between a designed rack and a pile of screenshots. Referenced in
-`app/content/projects.ts` as `/posters/name.jpg`.
+**`/discs`**: the art for each disc, a square image shown as a circle.
+Anything around 600px is plenty. Referenced in `app/content/projects.ts`
+as `poster: '/discs/name.webp'`. `.webp` is smallest, but `.jpg` and `.png`
+work too.
 
-**`/video`** — the MP4s. Referenced as `/video/name.mp4`. Before a disc is
-clicked, whichever one is hovered (or centred, on touch) plays blurred and
-silent behind the rack — that's a preview, not a separate file, so there's
-nothing extra to export for it.
+**`/video`**: one clip per disc, plus the showreel. Referenced as
+`video: '/video/name.webm'`. Each one plays with sound when its disc is
+clicked, so there's nothing separate to export for the blurred preview
+behind the home page; that's a still from the disc art.
 
-**`/music`** — one ambient track, referenced in `app/content/projects.ts` as
-`site.music.src`. It plays low while browsing, and pauses the moment a disc
-is actually loaded. Browsers block audible autoplay before any click, so it
-starts on the visitor's first interaction with the page if the initial
-attempt is refused — expect it silent for a moment on a first visit.
+**`/music`**: the background tracks, listed in `site.music` in
+`app/content/projects.ts`. Nothing plays until a visitor picks one from
+**Play BGM** in the header; browsers block sound before a click.
 
-Filenames: lowercase, no spaces, **no å ä ö**. `skogsmiljö ljud.mp4` breaks
-URLs in ways that are miserable to debug. Use `skog-ambience.mp4`.
+**`/documents`**: the CV (PDF). Linked from Contact as `site.resume`; it
+opens in the browser's PDF viewer, not as a download.
 
-## Encoding
+**`/img`**: the logo, the About portrait and the LinkedIn mark.
 
-The projects — 1280px is plenty. They play letterboxed, not cropped, so
-nothing in the corners is lost. Aim for under 10 MB each.
+Filenames: lowercase or plain, no spaces, **no å ä ö**. `skogsmiljö ljud.webm`
+breaks URLs in ways that are miserable to debug.
+
+## Encoding video
+
+The clips are VP9 `.webm`. 1280px is plenty, and under about 35 MB each
+keeps the site quick (the showreel runs longest). Whatever you export from,
+the result needs to be a `.webm` the browser can seek in, so the timeline and
+the showreel's per-clip info work.
 
     ffmpeg -i capture.mov -vf "scale=1280:-2" \
-      -c:v libx264 -crf 23 -preset slow -pix_fmt yuv420p \
-      -c:a aac -b:a 128k -movflags +faststart project.mp4
+      -c:v libvpx-vp9 -crf 33 -b:v 0 -row-mt 1 \
+      -c:a libopus -b:a 128k project.webm
 
-`-movflags +faststart` is the flag not to skip. It moves the file index to
-the front so playback starts while the rest downloads. Without it the
-browser waits for the whole file and a 30 MB capture feels broken.
+After re-exporting the **showreel**, check its length (right-click the file
+→ Properties → Details) and update `length` and the `chapters` times in
+`app/content/projects.ts` if the clips moved.
+
+## Favicon
+
+`app/favicon.ico`, `app/icon.png` and `app/apple-icon.png` are the A with
+the vinyl from the logo, cream on the site's dark colour. Next.js picks them
+up from `app/` automatically. Browsers cache favicons hard, so a change can
+take a restart to show.

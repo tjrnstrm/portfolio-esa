@@ -68,10 +68,10 @@ export const site = {
   /** One sentence; it wraps itself, so no manual line breaks. Shown when
    *  hovering a nominee disc, and read out to screen readers. */
   award:
-    'Nominated for Best Audio and Game of the Year at the Swedish Game Awards 2026',
+    'Nominated for Best Audio and Game of the Year at SGA New Talent 2026',
   /** The nomination box on the About page. */
   nomination: {
-    kicker: 'Nominated · Swedish Game Awards 2026',
+    kicker: 'Nominated · SGA New Talent 2026',
     detail: 'Best Audio and Game of the Year, for Bony Tony: The Revenge.',
   },
 

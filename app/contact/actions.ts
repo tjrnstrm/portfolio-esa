@@ -40,8 +40,10 @@ export async function sendContactMessage(
     return { status: 'error', message: 'That email address doesn’t look right.', values };
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM;
+  // Hosts keep pasted quotes and stray spaces as part of the value, so
+  // tidy both before using them.
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const from = process.env.CONTACT_FROM?.trim().replace(/^["']|["']$/g, '');
   if (!apiKey || !from) {
     console.error('Contact form: RESEND_API_KEY or CONTACT_FROM is not set.');
     return { status: 'error', message: failedMessage(), values };
