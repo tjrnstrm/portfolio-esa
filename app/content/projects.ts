@@ -86,8 +86,8 @@ export const site = {
    *  "Play music" in the header; the choice carries across pages. */
   musicAlbum: 'Bony Tony: The Revenge',
   music: [
-    { src: '/music/BTR - Sewers.wav', title: 'Sewers', labelColor: '#2f5e4a' },
-    { src: '/music/BTR - Casino.wav', title: 'Casino', labelColor: '#7a2532' },
+    { src: '/music/btr-sewers.m4a', title: 'Sewers', labelColor: '#2f5e4a' },
+    { src: '/music/btr-casino.m4a', title: 'Casino', labelColor: '#7a2532' },
   ] satisfies MusicTrack[],
 
   /** The links in the top bar and hamburger menu. */

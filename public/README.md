@@ -12,7 +12,11 @@ behind the home page; that's a still from the disc art.
 
 **`/music`**: the background tracks, listed in `site.music` in
 `app/content/projects.ts`. Nothing plays until a visitor picks one from
-**Play BGM** in the header; browsers block sound before a click.
+**Play BGM** in the header; browsers block sound before a click. They're
+AAC `.m4a` at 256 kbps (about a tenth the size of the WAV masters, which
+live outside the repo in `../esa-audio-masters`). To add a track:
+
+    ffmpeg -i "Track.wav" -c:a aac -b:a 256k -movflags +faststart track.m4a
 
 **`/documents`**: the CV (PDF). Linked from Contact as `site.resume`; it
 opens in the browser's PDF viewer, not as a download.
