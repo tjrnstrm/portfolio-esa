@@ -21,6 +21,8 @@ export type Project = {
   poster: string;
   /** Video file. Put it in /public/video/ and write "/video/name.webm". */
   video: string;
+  /** If the video has black bars baked into its top and bottom. */
+  letterbox?: Letterbox;
   /** Colour of the label in the middle of the disc. Optional. */
   labelColor?: string;
   /** Shows a "Nominee" pill on the disc (the award text is `site.award`). */
@@ -37,7 +39,14 @@ export type Chapter = {
   /** When this clip starts, as minutes:seconds, e.g. "0:24". */
   at: string;
   info: ProjectInfo;
+  /** If this clip has black bars baked into its top and bottom. */
+  letterbox?: Letterbox;
 };
+
+/** Black bars baked into a video's top and bottom: the height of one bar
+ *  in pixels, and the video's full height. The player zooms in just
+ *  enough to push them off screen. e.g. { bar: 36, of: 1080 } */
+export type Letterbox = { bar: number; of: number };
 
 export type ProjectInfo = {
   /** The game's name, shown largest. */
@@ -153,6 +162,7 @@ export const showreel: Project & { length: string } = {
     {
       at: '0:46',
       info: { game: 'Metroid Prime: Remastered', lines: ['Sound re-design'] },
+      letterbox: { bar: 36, of: 1080 },
     },
   ],
 };
@@ -175,6 +185,7 @@ export const discs: Project[] = [
     note: 'A sound redesign focused on atmosphere, movement, and combat.',
     poster: '/discs/metroid.webp',
     video: '/video/MetroidPrime.webm',
+    letterbox: { bar: 36, of: 1080 },
     info: { game: 'Metroid Prime: Remastered', lines: ['Sound re-design'] },
   },
   {

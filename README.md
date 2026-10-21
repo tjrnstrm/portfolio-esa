@@ -27,6 +27,9 @@ text, the contact email and the CV link.
   `meta` (optional) is the category it turns into on hover. `poster` is the
   disc art, `video` the clip, and `info` the lines shown beside the player.
   `nominee: true` adds the small gold star after the title.
+  `letterbox: { bar: 36, of: 1080 }` is for a video with black bars baked
+  into its top and bottom (Metroid has them): the player zooms in just enough
+  to hide them. Showreel chapters take it too, per clip.
 - **Showreel:** `showreel` is its own disc and also the button under the
   logo. Its `chapters` list changes the info beside the player as the reel
   moves between clips: one entry per clip with the time it starts (`'0:25'`).

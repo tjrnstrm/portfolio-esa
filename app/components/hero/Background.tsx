@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import type { Project } from "../../content/projects";
+import type { Letterbox, Project } from "../../content/projects";
 import Preview from "./Preview";
 import styles from "./Background.module.css";
 
@@ -8,11 +8,14 @@ import styles from "./Background.module.css";
  *  readable. */
 export default function Background({
   active,
+  letterbox,
   preview,
   videoRef,
   onVideoStateChange,
 }: {
   active: Project | null;
+  /** Black bars baked into what's playing now, to zoom past. */
+  letterbox?: Letterbox;
   /** The hovered (or default) project, shown blurred while browsing. */
   preview: Project | null;
   videoRef: RefObject<HTMLVideoElement | null>;
@@ -31,6 +34,7 @@ export default function Background({
               ref={videoRef}
               key={active.video}
               className={styles.player}
+              style={zoomPastBars(letterbox)}
               src={active.video}
               preload="metadata"
               autoPlay
@@ -48,4 +52,12 @@ export default function Background({
       <div className={styles.scrim} />
     </>
   );
+}
+
+/** Scales a video with black bars baked into its top and bottom so the
+ *  picture, not the bars, fills the screen. */
+function zoomPastBars(letterbox: Letterbox | undefined) {
+  if (!letterbox) return undefined;
+  const { bar, of } = letterbox;
+  return { transform: `scale(${of / (of - 2 * bar)})` };
 }

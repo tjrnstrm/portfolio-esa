@@ -1,7 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { showreel, type Project, type ProjectInfo } from "../../content/projects";
+import {
+  showreel,
+  type Chapter,
+  type Letterbox,
+  type Project,
+  type ProjectInfo,
+} from "../../content/projects";
 import Background from "./Background";
 import Intro from "./Intro";
 import Shelves from "./Shelves";
@@ -87,6 +93,7 @@ export default function HeroStage({ discs }: { discs: Project[] }) {
     <section className={styles.hero} data-playing={playing}>
       <Background
         active={active}
+        letterbox={active ? letterboxAt(active, videoTime) : undefined}
         preview={playing ? null : (hovered ?? showreel)}
         videoRef={videoRef}
         onVideoStateChange={syncVideoState}
@@ -145,16 +152,28 @@ export default function HeroStage({ discs }: { discs: Project[] }) {
   );
 }
 
-/** What to show beside the player: the chapter playing at `time` for a
- *  video made of clips (the showreel), otherwise the project's own info. */
-function infoAt(project: Project, time: number): ProjectInfo | undefined {
-  if (!project.chapters?.length) return project.info;
-  let current: ProjectInfo | undefined;
-  for (const chapter of project.chapters) {
+/** The clip playing at `time`, for a video made of clips (the showreel). */
+function chapterAt(project: Project, time: number): Chapter | undefined {
+  let current: Chapter | undefined;
+  for (const chapter of project.chapters ?? []) {
     const [m, sec] = chapter.at.split(":").map(Number);
-    if (m * 60 + sec <= time) current = chapter.info;
+    if (m * 60 + sec <= time) current = chapter;
   }
   return current;
+}
+
+/** What to show beside the player: the current clip's info for a video
+ *  made of clips, otherwise the project's own. */
+function infoAt(project: Project, time: number): ProjectInfo | undefined {
+  if (!project.chapters?.length) return project.info;
+  return chapterAt(project, time)?.info;
+}
+
+/** Black bars baked into what's playing now, if any (per clip for the
+ *  showreel). */
+function letterboxAt(project: Project, time: number): Letterbox | undefined {
+  if (!project.chapters?.length) return project.letterbox;
+  return chapterAt(project, time)?.letterbox;
 }
 
 /** The info beside the player. When it changes (the showreel moving to
