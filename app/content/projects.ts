@@ -112,7 +112,7 @@ export const site = {
   contact: {
     heading: 'Let\u2019s make some noise.',
     intro:
-      'Have a game, film or audio project in mind? Send me a message and tell me what you are working on.',
+      'Have a game or audio project in mind? Send me a message and tell me what you are working on.',
   },
 };
 
@@ -145,7 +145,10 @@ export const showreel: Project & { length: string } = {
     },
     {
       at: '0:25',
-      info: { game: 'Elden Ring: Godfrey Boss Fight', lines: ['Sound re-design'] },
+      info: {
+        game: 'Elden Ring: Godfrey Boss Fight',
+        lines: ['Sound re-design'],
+      },
     },
     {
       at: '0:46',
@@ -178,7 +181,7 @@ export const discs: Project[] = [
     title: 'Battlefield 3',
     meta: 'Sound redesign',
     note: 'A focused selection of weapon and combat sound design.',
-    poster: '/discs/Battlefield.webp',
+    poster: '/discs/Battlefield.jpg',
     video: '/video/Battlefield.webm',
     info: { game: 'Battlefield 3', lines: ['Sound re-design'] },
   },
