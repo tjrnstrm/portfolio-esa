@@ -3,6 +3,22 @@
 :root {
   --paper: #ffffff;
   --ink: #0a0a0a;
+
+  /* White type over footage. Defined once here and nowhere else.
+     --on-dark-3 is the floor: at .66 it measures at least 4.5:1 over the
+     scrimmed video, where the old .34 measured 2.4-2.9:1. */
+  --on-dark: #f4f5f6;
+  --on-dark-2: rgba(244, 245, 246, 0.8);
+  --on-dark-3: rgba(244, 245, 246, 0.66);
+  --deckface: #050505;
+  --text-shadow: 0 2px 14px rgba(5, 5, 5, 0.55), 0 1px 3px rgba(5, 5, 5, 0.6);
+
+  /* Type scale. Nothing goes under --text-label. */
+  --text-label: 11px;                    /* mono caps, four words at most */
+  --text-small: 13px;
+  --text-body: 15px;
+  --text-lede: clamp(16px, 4.5vw, 20px);
+  --text-title: clamp(14px, 2vw, 20px);
 }
 
 * { box-sizing: border-box; }

@@ -1,56 +1,53 @@
-import type { Ref } from "react";
-import type { Project } from "../../content/projects";
+import { site, type Project } from "../../content/projects";
 import styles from "./Disc.module.css";
 
-/** The record itself: poster as the label, grooves, hub. Shared by the disc
- *  in the rack and the copy that flies into the deck. The play glyph only
- *  shows for the focused disc — everywhere else, a click just brings that
- *  disc to focus rather than playing it. */
-export function DiscFace({ project, focused }: { project: Project; focused: boolean }) {
-  return (
-    <>
-      <span
-        className={styles.vinyl}
-        style={project.poster ? { backgroundImage: `url(${project.poster})` } : undefined}
-      />
-      <span className={styles.grooves} />
-      <span className={styles.hub}>
-        {focused ? <span className={styles.hubGlyph} /> : null}
-      </span>
-    </>
-  );
-}
-
-type DiscProps = {
+/** One record on a shelf: the project's artwork as the vinyl, grooves, a
+ *  spindle hole (or a coloured label, for the soundtrack discs) and, on a
+ *  nominated piece, a "Nominee" pill. Clicking it plays the project. */
+export default function Disc({
+  project,
+  onPlay,
+  onHoverStart,
+}: {
   project: Project;
-  /** In the deck: the rack shows an empty socket in its place. */
-  loaded: boolean;
-  /** The disc centred in the rack — the only one a click actually plays. */
-  focused: boolean;
   onPlay: () => void;
-  /** A mouse entering this disc — the background preview picks it up. */
+  /** A mouse or keyboard focus reaching the disc; the background follows it. */
   onHoverStart?: () => void;
-  ref?: Ref<HTMLButtonElement>;
-};
-
-export default function Disc({ project, loaded, focused, onPlay, onHoverStart, ref }: DiscProps) {
-  const label = loaded
-    ? `${project.title} — playing`
-    : focused
-    ? `Play ${project.title}`
-    : `Show ${project.title}`;
+}) {
+  const label = `Play ${project.title}. ${project.note}${project.nominee ? ` ${site.award}.` : ""}`;
 
   return (
-    <button
-      type="button"
-      ref={ref}
-      className={`${styles.disc} ${loaded ? styles.loaded : ""}`}
-      onClick={onPlay}
-      onMouseEnter={onHoverStart}
-      disabled={loaded}
-      aria-label={label}
-    >
-      <DiscFace project={project} focused={focused} />
-    </button>
+    <div className={styles.slot}>
+      <button
+        type="button"
+        className={styles.disc}
+        onClick={onPlay}
+        onMouseEnter={onHoverStart}
+        onFocus={onHoverStart}
+        aria-label={label}
+        title={project.nominee ? site.award : undefined}
+      >
+        <span
+          className={styles.vinyl}
+          style={{ backgroundImage: `url(${project.poster})` }}
+        />
+        <span className={styles.grooves} />
+        {project.labelColor ? (
+          <span className={styles.label} style={{ background: project.labelColor }} />
+        ) : null}
+        <span className={styles.hole} />
+        {project.nominee ? (
+          <span className={styles.nominee}>
+            <svg className={styles.sparkle} width="9" height="9" viewBox="0 0 10 10" aria-hidden="true">
+              <path d="M5 0 Q5.6 4.4 10 5 Q5.6 5.6 5 10 Q4.4 5.6 0 5 Q4.4 4.4 5 0 Z" fill="currentColor" />
+            </svg>
+            <span className={styles.nomineeText}>SGA Nominee</span>
+          </span>
+        ) : null}
+      </button>
+      <span className={`${styles.caption} ${project.nominee ? styles.captionNominee : ""}`}>
+        <span className={styles.title}>{project.title}</span>
+      </span>
+    </div>
   );
 }

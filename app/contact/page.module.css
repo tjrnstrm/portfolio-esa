@@ -1,10 +1,5 @@
 .page {
-  --on-dark: #f4f5f6;
-  --on-dark-2: rgba(244, 245, 246, 0.72);
-  --on-dark-3: rgba(244, 245, 246, 0.44);
-  --deckface: #050505;
   --line: rgba(244, 245, 246, 0.18);
-  --text-shadow: 0 2px 14px rgba(5, 5, 5, 0.55), 0 1px 3px rgba(5, 5, 5, 0.6);
 
   position: relative;
   min-height: 100vh;
@@ -59,7 +54,7 @@
 .form label span,
 .directLinks span {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--text-label);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--on-dark-3);
@@ -70,7 +65,7 @@
 .lede {
   max-width: 560px;
   margin: 24px 0 0;
-  font-size: clamp(16px, 4.5vw, 20px);
+  font-size: var(--text-lede);
   line-height: 1.5;
   color: var(--on-dark-2);
   text-shadow: var(--text-shadow);
@@ -96,6 +91,26 @@
 .linkedinLink {
   min-width: 34px;
 }
+/* The CV: icon, label and an arrow saying it opens in a new tab. 44px
+   tall so it's easy to tap. */
+.resume {
+  margin-top: 8px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--on-dark-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-shadow: var(--text-shadow);
+  transition: color 0.15s ease;
+}
+.resume:hover { color: var(--on-dark); }
+.resumeArrow { transition: transform 0.15s ease; }
+.resume:hover .resumeArrow { transform: translate(2px, -2px); }
 .linkedinLogo {
   display: block;
   width: 34px;
@@ -140,7 +155,7 @@
   background: var(--on-dark);
   color: var(--deckface);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;

@@ -3,9 +3,9 @@ import type { Project } from "../../content/projects";
 import Preview from "./Preview";
 import styles from "./Background.module.css";
 
-/** The blurred preview behind everything before a disc is loaded, the
- *  playing project's video faded in over it, and the scrim that keeps the
- *  type readable. */
+/** The blurred preview behind everything while browsing, the playing
+ *  project's video faded in over it, and the scrim that keeps the type
+ *  readable. */
 export default function Background({
   active,
   preview,
@@ -13,7 +13,7 @@ export default function Background({
   onVideoStateChange,
 }: {
   active: Project | null;
-  /** The hovered-or-centred project, shown blurred while idle. */
+  /** The hovered (or default) project, shown blurred while browsing. */
   preview: Project | null;
   videoRef: RefObject<HTMLVideoElement | null>;
   onVideoStateChange: () => void;
@@ -23,53 +23,29 @@ export default function Background({
       <div className={styles.bg}>
         {!active && preview ? <Preview project={preview} /> : null}
 
-        <div className={`${styles.project} ${active ? styles.projectOn : ""}`}>
-          {active ? (
-            <ProjectPlayer
-              project={active}
-              videoRef={videoRef}
-              onVideoStateChange={onVideoStateChange}
+        <div className={`${styles.project} ${active?.video ? styles.projectOn : ""}`}>
+          {/* No poster: the frame stays black until the video's first frame
+              arrives, instead of flashing the disc artwork full screen. */}
+          {active?.video ? (
+            <video
+              ref={videoRef}
+              key={active.video}
+              className={styles.player}
+              src={active.video}
+              preload="metadata"
+              autoPlay
+              playsInline
+              onLoadedMetadata={onVideoStateChange}
+              onDurationChange={onVideoStateChange}
+              onTimeUpdate={onVideoStateChange}
+              onPlay={onVideoStateChange}
+              onPause={onVideoStateChange}
+              onEnded={onVideoStateChange}
             />
           ) : null}
         </div>
       </div>
       <div className={styles.scrim} />
     </>
-  );
-}
-
-function ProjectPlayer({
-  project,
-  videoRef,
-  onVideoStateChange,
-}: {
-  project: Project;
-  videoRef: RefObject<HTMLVideoElement | null>;
-  onVideoStateChange: () => void;
-}) {
-  if (!project.video) {
-    /* eslint-disable-next-line @next/next/no-img-element */
-    return <img className={styles.player} src={project.poster} alt={project.title} />;
-  }
-
-  /* Built only when a disc is loaded. Playback and scrubbing live above the
-     rack instead of covering the footage with native controls. */
-  return (
-    <video
-      ref={videoRef}
-      key={project.video}
-      className={styles.player}
-      src={project.video}
-      poster={project.poster}
-      preload="metadata"
-      autoPlay
-      playsInline
-      onLoadedMetadata={onVideoStateChange}
-      onDurationChange={onVideoStateChange}
-      onTimeUpdate={onVideoStateChange}
-      onPlay={onVideoStateChange}
-      onPause={onVideoStateChange}
-      onEnded={onVideoStateChange}
-    />
   );
 }

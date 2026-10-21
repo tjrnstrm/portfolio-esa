@@ -2,26 +2,14 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { site, type MusicTrack, type Project } from "../../content/projects";
+import { site } from "../../content/projects";
 import TransitionLink from "../TransitionLink";
-import NowListening from "./NowListening";
+import MusicPicker from "./MusicPicker";
 import styles from "./SiteNav.module.css";
 
-export default function SiteNav({
-  music = null,
-  musicPaused = false,
-  musicChanging = false,
-  project = null,
-  onToggleMusic,
-  onChangeMusic,
-}: {
-  music?: MusicTrack | null;
-  musicPaused?: boolean;
-  musicChanging?: boolean;
-  project?: Project | null;
-  onToggleMusic?: () => void;
-  onChangeMusic?: () => void;
-}) {
+/** The header on every page: "Play music" on the left, the page links
+ *  centred on desktop, and a menu button on the right on phones. */
+export default function SiteNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuClosing, setMenuClosing] = useState(false);
@@ -50,25 +38,9 @@ export default function SiteNav({
 
   return (
     <nav className={styles.nav}>
-      {project ? (
-        <div className={styles.projectTitle} aria-live="polite">
-          {project.title}
-        </div>
-      ) : music && onToggleMusic && onChangeMusic ? (
-        <NowListening
-          music={music}
-          paused={musicPaused}
-          changing={musicChanging}
-          onToggle={onToggleMusic}
-          onChange={onChangeMusic}
-        />
-      ) : (
-        <TransitionLink className={styles.brand} href="/" aria-label={`${site.name} home`}>
-          {site.name}
-        </TransitionLink>
-      )}
+      <MusicPicker />
 
-      {/* Desktop: all primary routes sit inline. */}
+      {/* Desktop: the routes sit in the true centre of the header. */}
       <span className={styles.links}>
         {site.nav.map((l) => (
           <TransitionLink key={l.label} href={l.href}>{l.label}</TransitionLink>

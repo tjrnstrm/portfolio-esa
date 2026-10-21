@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { ViewTransition } from 'react';
-import PageMusicHeader from '../components/hero/PageMusicHeader';
+import SiteNav from '../components/hero/SiteNav';
 import Preview from '../components/hero/Preview';
-import { projects, site } from '../content/projects';
+import { showreel, site } from '../content/projects';
 import ContactForm from './ContactForm';
 import styles from './page.module.css';
 
@@ -16,11 +16,11 @@ export default function ContactPage() {
   return (
     <main className={styles.page}>
       <div className={styles.background} aria-hidden="true">
-        <Preview project={projects[0]} />
+        <Preview project={showreel} />
       </div>
       <div className={styles.scrim} />
 
-      <PageMusicHeader />
+      <SiteNav />
 
       <section className={styles.content} aria-labelledby="contact-heading">
         <ViewTransition enter="content-fall" default="none">
@@ -49,6 +49,28 @@ export default function ContactPage() {
                 {site.email}
               </a>
             </div>
+
+            <a
+              className={styles.resume}
+              href={site.resume}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="View resume (PDF, opens in a new tab)"
+            >
+              <svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true">
+                <path
+                  d="M2 1.5h6.5L12 5v9.5H2z M8.5 1.5V5H12 M4.5 8.5h5 M4.5 11h5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              View resume
+              <svg className={styles.resumeArrow} width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+                <path d="M2.5 7.5 L7.5 2.5 M3.5 2.5 H7.5 V6.5" fill="none" stroke="currentColor" strokeWidth="1.3" />
+              </svg>
+            </a>
           </div>
         </ViewTransition>
 

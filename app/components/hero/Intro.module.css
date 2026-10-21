@@ -1,52 +1,83 @@
-.id {
-  text-align: center;
-  transition: opacity 0.5s ease;
+/* Fills the space between the header and the shelves and centres the logo
+   in it. Fades out with everything else while a video plays. */
+.intro {
+  position: relative;
+  z-index: 5;
+  flex: 1 0 auto;
+  display: grid;
+  place-items: center;
+  padding: 8px 16px 24px;
+  transition: opacity 0.4s ease;
 }
-[data-playing='true'] .id {
+[data-playing='true'] .intro {
   opacity: 0;
   pointer-events: none;
 }
 
-.wordmark {
-  position: relative;
-  width: min(60vw, 500px);
-  aspect-ratio: 1.7;
-  margin: 0 auto;
-  overflow: hidden;
+.reel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--on-dark);
+  cursor: pointer;
+  /* Set by Intro.tsx: how far to move so the logo sits mid-screen. Hidden
+     until then so it doesn't visibly jump after the page loads. */
+  transform: translateY(var(--shift, 0px));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.reel[data-placed] { opacity: 1; }
+.logo {
+  display: block;
+  width: 190px;
+  height: auto;
   filter: drop-shadow(0 2px 14px rgba(5, 5, 5, 0.55));
 }
-.logo {
-  object-fit: cover;
+.pill {
+  height: 36px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(244, 245, 246, 0.45);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.35);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
-/* One row, always — no max-width to wrap against, and it shrinks with the
-   viewport instead. If it still can't fit, it trims rather than wraps or
-   overflows. */
-.statement {
-  max-width: 100%;
-  margin: 22px auto 0;
-  white-space: nowrap;
+.reel:hover .pill {
+  border-color: var(--on-dark);
+  background: rgba(5, 5, 5, 0.55);
+}
+.pillText { letter-spacing: 0.16em; }
+.pillTime { letter-spacing: 0.06em; color: var(--on-dark-3); }
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
   overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: clamp(13px, 3.4vw, 18px);
-  line-height: 1.4;
-  text-shadow: var(--text-shadow);
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
-.stack {
-  margin: 10px 0 0;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--on-dark-2);
-  text-shadow: var(--text-shadow);
+
+@media (min-width: 641px) {
+  .reel { gap: 14px; }
+  .logo { width: 270px; }
+  .pill { height: 40px; padding: 0 18px; gap: 10px; }
 }
-.award {
-  margin: 10px 0 0;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  white-space: pre-line;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--on-dark-3);
-  text-shadow: var(--text-shadow);
+
+/* Short phones (SE, landscape): smaller logo so everything still fits. */
+@media (max-height: 640px) {
+  .intro { padding-bottom: 18px; }
+  .logo { width: 150px; }
 }

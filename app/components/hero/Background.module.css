@@ -12,15 +12,54 @@
   background: #000;
 }
 
+/* Two shadings that cross-fade, since gradients themselves can't animate:
+   ::before for idle, ::after while a video plays. The playing one keeps the
+   video's middle clear but holds the shade behind the title band and the
+   controls. Fading the whole scrim instead took the description to 4.0:1. */
 .scrim {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(5, 5, 5, 0.7) 0%,
-    rgba(5, 5, 5, 0.26) 26%,
-    rgba(5, 5, 5, 0.28) 52%,
-    rgba(5, 5, 5, 0.88) 100%
-  );
+}
+.scrim::before,
+.scrim::after {
+  content: "";
+  position: absolute; inset: 0;
   transition: opacity 0.5s ease;
 }
-[data-playing="true"] .scrim { opacity: 0.45; }
+/* Browsing: dark behind the header, light round the logo, then darkening
+   from halfway down to near black by three-quarters, behind the shelves. */
+.scrim::before {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 5, 0.72) 0%,
+    rgba(5, 5, 5, 0.25) 22%,
+    rgba(5, 5, 5, 0.28) 52%,
+    rgba(5, 5, 5, 0.88) 76%,
+    rgba(5, 5, 5, 0.96) 100%
+  );
+}
+/* Playing: the video on its own, with a little shade at the top and more
+   from halfway down, behind the info, Close and the controls. */
+.scrim::after {
+  opacity: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 5, 0.4) 0%,
+    rgba(5, 5, 5, 0) 14%,
+    rgba(5, 5, 5, 0) 52%,
+    rgba(5, 5, 5, 0.55) 74%,
+    rgba(5, 5, 5, 0.85) 100%
+  );
+}
+[data-playing="true"] .scrim::before { opacity: 0; }
+[data-playing="true"] .scrim::after { opacity: 1; }
+
+/* The hero's reduced-motion rule targets `*`, which skips pseudo-elements. */
+@media (prefers-reduced-motion: reduce) {
+  .scrim::before, .scrim::after { transition-duration: 0.01ms; }
+}
+
+/* Short screens let the hero scroll (Hero.module.css), so pin the footage
+   to the viewport rather than stretching it down the page. */
+@media (max-height: 600px) {
+  .bg, .scrim { position: fixed; }
+}

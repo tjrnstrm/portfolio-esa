@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { ViewTransition } from 'react';
-import PageMusicHeader from '../components/hero/PageMusicHeader';
+import SiteNav from '../components/hero/SiteNav';
 import Preview from '../components/hero/Preview';
-import { projects, site } from '../content/projects';
+import { showreel, site } from '../content/projects';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -12,8 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const showreel = projects[0];
-
   return (
     <main className={styles.page}>
       <div className={styles.background} aria-hidden="true">
@@ -21,7 +19,7 @@ export default function AboutPage() {
       </div>
       <div className={styles.scrim} />
 
-      <PageMusicHeader />
+      <SiteNav />
 
       <section className={styles.content} aria-labelledby="about-heading">
         <ViewTransition enter="content-fall" default="none">
@@ -42,6 +40,23 @@ export default function AboutPage() {
             <h1 id="about-heading" className={styles.heading}>
               {site.about.heading}
             </h1>
+            <p className={styles.role}>{site.stack}</p>
+            <div className={styles.nomination}>
+              <svg width="20" height="20" viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="8" cy="6" r="4" fill="none" stroke="currentColor" strokeWidth="1.3" />
+                <path
+                  d="M5.6 9.3 L4.5 14.5 L8 12.8 L11.5 14.5 L10.4 9.3"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <p>
+                <span className={styles.nominationKicker}>{site.nomination.kicker}</span>
+                <span className={styles.nominationDetail}>{site.nomination.detail}</span>
+              </p>
+            </div>
             <ul className={styles.facts}>
               {site.about.points.map((point) => (
                 <li key={point}>{point}</li>
