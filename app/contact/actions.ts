@@ -46,7 +46,7 @@ export async function sendContactMessage(
   const from = process.env.CONTACT_FROM?.trim().replace(/^["']|["']$/g, '');
   if (!apiKey || !from) {
     console.error('Contact form: RESEND_API_KEY or CONTACT_FROM is not set.');
-    return { status: 'error', message: failedMessage(), values };
+    return { status: 'error', message: failedMessage('not configured'), values };
   }
 
   const { error } = await new Resend(apiKey).emails.send({
@@ -59,11 +59,13 @@ export async function sendContactMessage(
 
   if (error) {
     console.error('Contact form: Resend error', error);
-    return { status: 'error', message: failedMessage(), values };
+    return { status: 'error', message: failedMessage(error.name), values };
   }
   return { status: 'sent', message: 'Thanks! Your message is on its way.' };
 }
 
-function failedMessage() {
-  return `Sorry, that didn’t send. Please try again, or email ${site.email} directly.`;
+/** `reason` is a short code (Resend's error name, or "not configured"), so
+ *  a failure on the live site says why without opening the server logs. */
+function failedMessage(reason: string) {
+  return `Sorry, that didn’t send (${reason}). Please try again, or email ${site.email} directly.`;
 }
