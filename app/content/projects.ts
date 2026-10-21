@@ -24,6 +24,16 @@ export type Project = {
   nominee?: boolean;
   /** A few lines about the work, shown beside the player while it plays. */
   info?: ProjectInfo;
+  /** For a video made of several clips (the showreel): what to show from
+   *  each point in the video. Each entry shows from its `at` time until
+   *  the next one starts. Overrides `info` while the video plays. */
+  chapters?: Chapter[];
+};
+
+export type Chapter = {
+  /** When this clip starts, as minutes:seconds, e.g. "0:24". */
+  at: string;
+  info: ProjectInfo;
 };
 
 export type ProjectInfo = {
@@ -39,9 +49,6 @@ export type ProjectInfo = {
 
 export type Shelf = {
   title: string;
-  /** Shown before the title, the two together in shimmering gold with a
-   *  star at the top right, e.g. "SGA Nominated". Optional. */
-  badge?: string;
   projects: Project[];
 };
 
@@ -111,22 +118,42 @@ export const site = {
   },
 };
 
-/** Played by the "Play showreel" button under the logo. `length` is the
- *  label on that button. */
-export const showreel: Project & { length: string } = {
-  title: 'Showreel 2026',
-  note: 'Two minutes of the work, cut for people with thirty seconds.',
-  poster: '/discs/logo.webp',
-  video: '/video/showreel.webm',
-  length: '1:08',
-};
-
-/** Shared by both Bony Tony discs. */
 const bonyTonyInfo: ProjectInfo = {
   game: 'Bony Tony: The Revenge',
   lines: ['2.5D platforming game', 'Student project between APA and TGA'],
   work: 'Ambient sound design and saxophone playing, with composing input.',
   award: 'SGA New Talent 2026: nominated for Best Audio and Game of the Year',
+};
+
+/** Played by the "Play showreel" button under the logo, and by its disc
+ *  on the My Work shelf. `length` is the label on that button. */
+export const showreel: Project & { length: string } = {
+  title: 'Showreel',
+  note: 'Two minutes of the work, cut for people with thirty seconds.',
+  poster: '/discs/logo.webp',
+  video: '/video/showreel.webm',
+  length: '1:21',
+  /* The info beside the player changes as the reel moves between clips:
+     each entry shows from its time until the next one starts. */
+  chapters: [
+    {
+      at: '0:00',
+      info: {
+        game: 'Bony Tony: The Revenge',
+        lines: [],
+        work: bonyTonyInfo.work,
+        award: bonyTonyInfo.award,
+      },
+    },
+    {
+      at: '0:25',
+      info: { game: 'Elden Ring: Godfrey Boss Fight', lines: ['Sound re-design'] },
+    },
+    {
+      at: '0:46',
+      info: { game: 'Metroid Prime: Remastered', lines: ['Sound re-design'] },
+    },
+  ],
 };
 
 /** The two rows of discs at the bottom of the home page. */
@@ -151,25 +178,16 @@ export const shelves: Shelf[] = [
     ],
   },
   {
-    title: 'Soundtrack',
-    badge: 'SGA Nominated',
+    title: 'My Work',
     projects: [
-      /* Both use the Bony Tony footage until each track has its own video. */
+      showreel,
       {
-        title: 'Sewers',
-        note: 'Sewers, from the Bony Tony: The Revenge soundtrack.',
+        title: 'Bony Tony',
+        note: 'Ambient sound design and saxophone for Bony Tony: The Revenge.',
         poster: '/discs/BonyTony.png',
         video: '/video/BonyTony.webm',
         nominee: true,
-        info: { ...bonyTonyInfo, game: `${bonyTonyInfo.game} – Sewers` },
-      },
-      {
-        title: 'Casino',
-        note: 'Casino, from the Bony Tony: The Revenge soundtrack.',
-        poster: '/discs/BonyTony.png',
-        video: '/video/BonyTony.webm',
-        nominee: true,
-        info: { ...bonyTonyInfo, game: `${bonyTonyInfo.game} – Casino` },
+        info: bonyTonyInfo,
       },
     ],
   },

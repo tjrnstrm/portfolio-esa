@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { showreel, type Project, type Shelf } from "../../content/projects";
+import { showreel, type Project, type ProjectInfo, type Shelf } from "../../content/projects";
 import Background from "./Background";
 import Intro from "./Intro";
 import Shelves from "./Shelves";
@@ -83,6 +83,7 @@ export default function HeroStage({ shelves }: { shelves: Shelf[] }) {
   }, [active, close]);
 
   const playing = active !== null;
+  const info = shown ? infoAt(shown, videoTime) : undefined;
 
   return (
     <section className={styles.hero} data-playing={playing}>
@@ -103,28 +104,7 @@ export default function HeroStage({ shelves }: { shelves: Shelf[] }) {
       <div className={styles.player} aria-hidden={!playing}>
         <div className={styles.dock}>
           <div className={styles.dockTop}>
-            {shown?.info ? (
-              <div className={styles.info}>
-                <p className={styles.infoGame}>{shown.info.game}</p>
-                {shown.info.lines.map((line) => (
-                  <p key={line} className={styles.infoLine}>{line}</p>
-                ))}
-                {shown.info.work ? (
-                  <p className={styles.infoWork}>
-                    <span className={styles.infoLabel}>My work</span>
-                    {shown.info.work}
-                  </p>
-                ) : null}
-                {shown.info.award ? (
-                  <p className={styles.infoAward}>
-                    <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
-                      <path d="M5 0 Q5.6 4.4 10 5 Q5.6 5.6 5 10 Q4.4 5.6 0 5 Q4.4 4.4 5 0 Z" fill="currentColor" />
-                    </svg>
-                    {shown.info.award}
-                  </p>
-                ) : null}
-              </div>
-            ) : null}
+            <InfoFade info={info} />
             <button
               ref={closeRef}
               type="button"
@@ -168,5 +148,68 @@ export default function HeroStage({ shelves }: { shelves: Shelf[] }) {
         </div>
       </div>
     </section>
+  );
+}
+
+/** What to show beside the player: the chapter playing at `time` for a
+ *  video made of clips (the showreel), otherwise the project's own info. */
+function infoAt(project: Project, time: number): ProjectInfo | undefined {
+  if (!project.chapters?.length) return project.info;
+  let current: ProjectInfo | undefined;
+  for (const chapter of project.chapters) {
+    const [m, sec] = chapter.at.split(":").map(Number);
+    if (m * 60 + sec <= time) current = chapter.info;
+  }
+  return current;
+}
+
+/** The info beside the player. When it changes (the showreel moving to
+ *  its next clip) the old text fades out while the new fades in, in the
+ *  same spot. */
+function InfoFade({ info }: { info: ProjectInfo | undefined }) {
+  const [current, setCurrent] = useState(info);
+  const [leaving, setLeaving] = useState<ProjectInfo | undefined>();
+  if (info !== current) {
+    setLeaving(current);
+    setCurrent(info);
+  }
+
+  useEffect(() => {
+    if (!leaving) return;
+    const timer = window.setTimeout(() => setLeaving(undefined), 450);
+    return () => window.clearTimeout(timer);
+  }, [leaving]);
+
+  if (!current && !leaving) return null;
+  return (
+    <div className={styles.infoStack}>
+      {leaving ? <InfoBlock key={`out-${leaving.game}`} info={leaving} className={styles.infoOut} /> : null}
+      {current ? <InfoBlock key={current.game} info={current} className={styles.infoIn} /> : null}
+    </div>
+  );
+}
+
+function InfoBlock({ info, className }: { info: ProjectInfo; className: string }) {
+  return (
+    <div className={`${styles.info} ${className}`}>
+      <p className={styles.infoGame}>{info.game}</p>
+      {info.lines.map((line) => (
+        <p key={line} className={styles.infoLine}>{line}</p>
+      ))}
+      {info.work ? (
+        <p className={styles.infoWork}>
+          <span className={styles.infoLabel}>My work</span>
+          {info.work}
+        </p>
+      ) : null}
+      {info.award ? (
+        <p className={styles.infoAward}>
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+            <path d="M5 0 Q5.6 4.4 10 5 Q5.6 5.6 5 10 Q4.4 5.6 0 5 Q4.4 4.4 5 0 Z" fill="currentColor" />
+          </svg>
+          {info.award}
+        </p>
+      ) : null}
+    </div>
   );
 }

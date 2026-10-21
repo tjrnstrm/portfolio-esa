@@ -1,6 +1,5 @@
 import type { Project, Shelf } from "../../content/projects";
 import Disc from "./Disc";
-import Sparkle from "./Sparkle";
 import styles from "./Shelves.module.css";
 
 /** The rows of discs at the bottom of the home page: stacked on phones,
@@ -20,23 +19,8 @@ export default function Shelves({
       <h2 className={styles.title}>Portfolio</h2>
       <div className={styles.list}>
         {shelves.map((shelf) => (
-          <section
-            key={shelf.title}
-            className={styles.shelf}
-            aria-label={shelf.badge ? `${shelf.badge} ${shelf.title}` : shelf.title}
-          >
-            <h3 className={styles.heading}>
-              {shelf.badge ? (
-                <span className={styles.badge}>
-                  <span className={styles.badgeText}>
-                    {shelf.badge} {shelf.title}
-                  </span>
-                  <Sparkle size={9} className={styles.sparkle} />
-                </span>
-              ) : (
-                shelf.title
-              )}
-            </h3>
+          <section key={shelf.title} className={styles.shelf} aria-label={shelf.title}>
+            <h3 className={styles.heading}>{shelf.title}</h3>
             <div className={styles.row}>
               {shelf.projects.map((p) => (
                 <Disc

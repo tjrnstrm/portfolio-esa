@@ -55,14 +55,26 @@
 }
 .close { margin-left: auto; flex: none; }
 
+/* Old and new info share one grid cell, so a change (the showreel's next
+   clip) cross-fades in place, both resting on the bottom edge. */
+.infoStack {
+  display: grid;
+  min-width: 0;
+  max-width: 560px;
+}
 .info {
-  max-width: 420px;
+  grid-area: 1 / 1;
+  align-self: end;
   min-width: 0;
   text-shadow: var(--text-shadow);
 }
+.infoIn { animation: info-in 0.45s ease both; }
+.infoOut { animation: info-out 0.45s ease both; pointer-events: none; }
+@keyframes info-in { from { opacity: 0; } }
+@keyframes info-out { to { opacity: 0; } }
 .infoGame {
-  margin: 0 0 4px;
-  font-size: 18px;
+  margin: 0 0 6px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -70,29 +82,30 @@
 .infoLine,
 .infoWork {
   margin: 0;
-  font-size: var(--text-small);
+  font-size: 15px;
   line-height: 1.45;
   color: var(--on-dark-2);
 }
-.infoWork { margin-top: 6px; }
+.infoWork { margin-top: 10px; }
 .infoLabel {
   display: block;
+  margin-bottom: 2px;
   font-family: var(--font-mono);
-  font-size: var(--text-label);
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--on-dark-3);
 }
 .infoAward {
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   display: flex;
   align-items: flex-start;
-  gap: 7px;
-  font-size: var(--text-small);
+  gap: 8px;
+  font-size: 15px;
   line-height: 1.4;
   color: var(--on-dark);
 }
-.infoAward svg { flex: none; margin-top: 4px; }
+.infoAward svg { flex: none; margin-top: 5px; }
 
 .close {
   height: 40px;
@@ -163,13 +176,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero, .hero :global(*) { transition-duration: 0.01ms !important; }
-  .spinner { animation: none; }
+  .spinner, .infoIn { animation: none; }
+  .infoOut { display: none; }
 }
 
 @media (min-width: 641px) {
   .hero { min-height: 600px; }
   .dock { bottom: 32px; }
-  .infoGame { font-size: 22px; }
+  .infoGame { font-size: 34px; letter-spacing: -0.02em; }
+  .infoLine, .infoWork, .infoAward { font-size: 18px; }
+  .infoLabel { font-size: 13px; }
   .spinner { width: 56px; height: 56px; }
 }
 

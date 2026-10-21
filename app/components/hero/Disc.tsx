@@ -27,7 +27,6 @@ export default function Disc({
         onMouseEnter={onHoverStart}
         onFocus={onHoverStart}
         aria-label={label}
-        title={project.nominee ? site.award : undefined}
       >
         <span
           className={styles.vinyl}
@@ -43,7 +42,14 @@ export default function Disc({
         <span className={styles.title}>
           <span className={styles.titleText}>
             {project.title}
-            {project.nominee ? <Sparkle size={8} className={styles.star} /> : null}
+            {project.nominee ? (
+              <span className={styles.tag} aria-hidden="true">
+                <span className={styles.tagStar}>
+                  <Sparkle size={8} />
+                </span>
+                <span className={styles.tagText}>SGA Nominee</span>
+              </span>
+            ) : null}
           </span>
         </span>
       </span>

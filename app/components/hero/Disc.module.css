@@ -65,16 +65,50 @@
   line-height: 1.25;
   text-wrap: balance;
 }
-/* The star sits off the title's top right without nudging it off-centre. */
+/* A nominee's star sits off the title's top right without nudging it
+   off-centre. Hovering the disc (or focusing it) turns the star into the
+   words "SGA Nominee" in the same spot. */
 .titleText { position: relative; }
-.star {
+.tag {
   position: absolute;
   top: -4px;
-  right: -11px;
+  left: calc(100% + 3px);
+  white-space: nowrap;
+}
+.tagStar {
+  display: block;
+  line-height: 0;
+  transition: opacity 0.2s ease, transform 0.25s var(--ease);
+}
+.tagText {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  opacity: 0;
+  transform: translateX(-4px);
+  color: #d9c38c;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: var(--text-shadow);
+  transition: opacity 0.2s ease 0.05s, transform 0.25s var(--ease) 0.05s;
+}
+.slot:hover .tagStar,
+.slot:has(.disc:focus-visible) .tagStar {
+  opacity: 0;
+  transform: scale(0.3) rotate(90deg);
+}
+.slot:hover .tagText,
+.slot:has(.disc:focus-visible) .tagText {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vinyl, .grooves, .label, .hole { transition: none; }
+  .vinyl, .grooves, .label, .hole, .tagStar, .tagText { transition: none; }
 }
 
 @media (min-width: 641px) {
