@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { ViewTransition } from 'react';
+import { PiMedalThin } from 'react-icons/pi';
 import SiteNav from '../components/hero/SiteNav';
 import Preview from '../components/hero/Preview';
 import { showreel, site } from '../content/projects';
@@ -42,20 +43,11 @@ export default function AboutPage() {
             </h1>
             <p className={styles.role}>{site.stack}</p>
             <div className={styles.nomination}>
-              <svg width="20" height="20" viewBox="0 0 16 16" aria-hidden="true">
-                <circle cx="8" cy="6" r="4" fill="none" stroke="currentColor" strokeWidth="1.3" />
-                <path
-                  d="M5.6 9.3 L4.5 14.5 L8 12.8 L11.5 14.5 L10.4 9.3"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.3"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <p>
-                <span className={styles.nominationKicker}>{site.nomination.kicker}</span>
-                <span className={styles.nominationDetail}>{site.nomination.detail}</span>
+              <p className={styles.nominationKicker}>
+                <PiMedalThin className={styles.medal} aria-hidden="true" />
+                {site.nomination.kicker}
               </p>
+              <p className={styles.nominationDetail}>{site.nomination.detail}</p>
             </div>
             <ul className={styles.facts}>
               {site.about.points.map((point) => (

@@ -1,0 +1,12 @@
+.sparkle {
+  color: #d9c38c;
+  filter: drop-shadow(0 0 4px rgba(217, 195, 140, 0.6));
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 45%, 100% { transform: scale(0.75) rotate(0deg); opacity: 0.75; }
+  60% { transform: scale(1.2) rotate(45deg); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sparkle { animation: none; }
+}

@@ -1,9 +1,11 @@
 import { site, type Project } from "../../content/projects";
+import Sparkle from "./Sparkle";
 import styles from "./Disc.module.css";
 
 /** One record on a shelf: the project's artwork as the vinyl, grooves, a
- *  spindle hole (or a coloured label, for the soundtrack discs) and, on a
- *  nominated piece, a "Nominee" pill. Clicking it plays the project. */
+ *  spindle hole (or a coloured label, if it has one). Clicking it plays
+ *  the project. A nominated piece mentions the award on hover and to
+ *  screen readers; the shelf heading carries the badge. */
 export default function Disc({
   project,
   onPlay,
@@ -36,17 +38,14 @@ export default function Disc({
           <span className={styles.label} style={{ background: project.labelColor }} />
         ) : null}
         <span className={styles.hole} />
-        {project.nominee ? (
-          <span className={styles.nominee}>
-            <svg className={styles.sparkle} width="9" height="9" viewBox="0 0 10 10" aria-hidden="true">
-              <path d="M5 0 Q5.6 4.4 10 5 Q5.6 5.6 5 10 Q4.4 5.6 0 5 Q4.4 4.4 5 0 Z" fill="currentColor" />
-            </svg>
-            <span className={styles.nomineeText}>SGA Nominee</span>
-          </span>
-        ) : null}
       </button>
-      <span className={`${styles.caption} ${project.nominee ? styles.captionNominee : ""}`}>
-        <span className={styles.title}>{project.title}</span>
+      <span className={styles.caption}>
+        <span className={styles.title}>
+          <span className={styles.titleText}>
+            {project.title}
+            {project.nominee ? <Sparkle size={8} className={styles.star} /> : null}
+          </span>
+        </span>
       </span>
     </div>
   );

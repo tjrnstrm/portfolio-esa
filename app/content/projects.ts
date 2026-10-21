@@ -39,6 +39,9 @@ export type ProjectInfo = {
 
 export type Shelf = {
   title: string;
+  /** Shown before the title, the two together in shimmering gold with a
+   *  star at the top right, e.g. "SGA Nominated". Optional. */
+  badge?: string;
   projects: Project[];
 };
 
@@ -149,6 +152,7 @@ export const shelves: Shelf[] = [
   },
   {
     title: 'Soundtrack',
+    badge: 'SGA Nominated',
     projects: [
       /* Both use the Bony Tony footage until each track has its own video. */
       {

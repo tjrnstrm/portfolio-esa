@@ -51,6 +51,44 @@
   color: var(--on-dark-2);
   text-shadow: var(--text-shadow);
 }
+/* A nominated shelf's whole heading ("SGA Nominated Soundtrack") in
+   champagne gold with a highlight sweeping across it every few seconds,
+   and the star at its top right. */
+.badge {
+  --gold: #d9c38c;
+  --gold-hi: #fff6dc;
+  position: relative;
+  white-space: nowrap;
+}
+.sparkle {
+  position: absolute;
+  top: -5px;
+  right: -12px;
+}
+.badgeText {
+  background: linear-gradient(
+    100deg,
+    var(--gold) 0%, var(--gold) 40%,
+    var(--gold-hi) 50%,
+    var(--gold) 60%, var(--gold) 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* A text-shadow would paint over the clipped gradient. */
+  text-shadow: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+  animation: shimmer 3.2s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%, 35% { background-position: 100% 0; }
+  75%, 100% { background-position: 0% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .badgeText { animation: none; }
+}
+
 .row {
   display: flex;
   justify-content: flex-start;
