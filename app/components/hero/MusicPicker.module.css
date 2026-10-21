@@ -1,6 +1,9 @@
 .picker {
   position: relative;
   z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .pill {
@@ -185,4 +188,67 @@
 @media (min-width: 641px) {
   .pill { height: 44px; padding: 0 16px 0 6px; gap: 10px; }
   .menu { width: 272px; }
+}
+
+/* ── volume, to the right of the toggle ── */
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.mute {
+  width: 36px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--on-dark-2);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.mute:hover { color: var(--on-dark); }
+.slider {
+  display: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 72px;
+  height: 40px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+/* The filled part of the track follows --vol (set from the volume). */
+.slider::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--on-dark) var(--vol), rgba(244, 245, 246, 0.25) var(--vol));
+}
+.slider::-moz-range-track {
+  height: 3px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--on-dark) var(--vol), rgba(244, 245, 246, 0.25) var(--vol));
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  margin-top: -3.5px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--on-dark);
+}
+.slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--on-dark);
+}
+
+@media (min-width: 641px) {
+  .slider { display: block; }
 }

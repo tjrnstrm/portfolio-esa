@@ -7,8 +7,9 @@ import TransitionLink from "../TransitionLink";
 import MusicPicker from "./MusicPicker";
 import styles from "./SiteNav.module.css";
 
-/** The header on every page: "Play music" on the left, the page links
- *  centred on desktop, and a menu button on the right on phones. */
+/** The header on every page: the music (with its volume) on the left, the
+ *  page links in one row at the centre on desktop, and a menu button on
+ *  the right on phones. */
 export default function SiteNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,10 +41,16 @@ export default function SiteNav() {
     <nav className={styles.nav}>
       <MusicPicker />
 
-      {/* Desktop: the routes sit in the true centre of the header. */}
+      {/* Desktop only. */}
       <span className={styles.links}>
-        {site.nav.map((l) => (
-          <TransitionLink key={l.label} href={l.href}>{l.label}</TransitionLink>
+        {site.nav.map((l, index) => (
+          <TransitionLink
+            key={l.label}
+            href={l.href}
+            aria-current={index === activeLink ? "page" : undefined}
+          >
+            {l.label}
+          </TransitionLink>
         ))}
       </span>
 

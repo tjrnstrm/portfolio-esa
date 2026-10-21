@@ -21,8 +21,8 @@
   opacity: 0;
   pointer-events: none;
 }
-/* ── desktop: route links in the true centre of the header, on a
-   tinted-glass pill with a shadow rather than a border ── */
+/* ── desktop: route links in one row, in the true centre of the header;
+   the current page (and the one hovered) in white ── */
 .links {
   position: absolute;
   top: 50%;
@@ -31,22 +31,18 @@
   display: none;
   align-items: center;
   gap: 4px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: rgba(244, 245, 246, 0.1);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  backdrop-filter: blur(14px) saturate(1.3);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
   font-size: var(--text-small);
 }
 .links a {
-  position: relative;
-  padding: 15px 16px;
+  padding: 14px 12px;
   color: var(--on-dark-2);
   text-decoration: none;
+  text-shadow: var(--text-shadow);
   transition: color 0.15s ease;
 }
-.links a:hover { color: var(--on-dark); }
+.links a:hover,
+.links a:focus-visible,
+.links a[aria-current="page"] { color: var(--on-dark); }
 
 /* ── phone: a hamburger opening everything as one panel ── */
 .burger {
@@ -174,7 +170,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .burgerBar {
+  .burgerBar,
+  .links a {
     transition-duration: 0.01ms;
   }
   .menu {

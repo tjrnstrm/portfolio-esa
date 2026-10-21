@@ -8,7 +8,6 @@ import Shelves from "./Shelves";
 import SiteNav from "./SiteNav";
 import Sparkle from "./Sparkle";
 import VideoControls from "./VideoControls";
-import { useMusicFade } from "./useMusicFade";
 import { useMusicPlayer } from "./useMusicPlayer";
 import styles from "./Hero.module.css";
 
@@ -28,8 +27,7 @@ export default function HeroStage({ discs }: { discs: Project[] }) {
   const [videoTime, setVideoTime] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
   const [videoPaused, setVideoPaused] = useState(true);
-  const { musicRef } = useMusicPlayer();
-  const fadeMusic = useMusicFade(musicRef);
+  const { fadeMusic } = useMusicPlayer();
 
   const play = useCallback((project: Project) => {
     returnFocusRef.current = document.activeElement as HTMLElement | null;
